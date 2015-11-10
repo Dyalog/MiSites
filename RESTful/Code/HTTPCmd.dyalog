@@ -36,7 +36,7 @@
      :Else
          parms←U.URLEncode parms
          :If ~(⊂cmd)∊'POST' 'PUT'
-             urlparms←parms
+             urlparms←{0∊⍴⍵:'' ⋄ '?',⍵}parms
              parms←''
          :EndIf
      :EndIf
