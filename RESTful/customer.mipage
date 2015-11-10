@@ -1,0 +1,133 @@
+﻿:Class customer : RESTful
+
+    ∇ r←Respond;custid;urlParams
+      :Access public
+      r←''
+     
+      :Select _Command  ⍝ which HTTP command?
+      :Case 'post'   ⍝ create new customer
+          r←AddCustomer
+      :Case 'get'    ⍝ retrieve
+          r←GetCustomer
+      :Case 'put'    ⍝ update
+          r←UpdateCustomer
+      :Case 'delete' ⍝ delete
+          r←DeleteCustomer
+      :Case 'options' ⍝ documentation
+          r←Documentation
+      :Else ⍝ invalid command
+          SetStatus 400 ⍝ Bad Request
+          →0
+      :EndSelect
+     
+      :If 0∊⍴r
+          SetStatus 404 ⍝ Not Found
+      :EndIf
+    ∇
+
+
+    ∇ r←AddCustomer;name
+      :Access public
+      r←⍬
+      :If ~0∊⍴name←Get'name' ⍝ was a name supplied?
+      :AndIf 0∊⍴_URI         ⍝ make sure no addition URI information
+          r←'custid' 'custname'Annotate #.bl.AddCustomer name
+      :Else
+          SetStatus 400 'Invalid format'
+      :EndIf
+    ∇
+
+    ∇ r←GetCustomer
+      :Select ⊃⍴_URI
+      :CaseList 0 1
+          :If ~0∊⍴r←#.bl.GetCustomer _URI
+              r←'custid' 'custname' 'custURI'Annotate r,makeCustomerURI¨r[;1]
+          :EndIf
+      :CaseList 2 3   ⍝ GET customer/custid/order or customer/custid/order/orderid
+          :If 'order'≡2⊃_URI
+              :If ~0∊⍴r←#.bl.GetCustomerOrders 1⊃_URI
+                  :If 2=⍴_URI ⍝ retrieve list of orders for customer
+                      r←'orderid' 'custid' 'orderdate'Annotate r
+                  :ElseIf ~0∊⍴r←(1⊃_URI)#.bl.getCustomerOrder(3⊃_URI)
+                      r←'order' 'details'#.JSON.toNS('orderid' 'custid' 'orderdate')('qty' 'productid' 'productname')Annotate¨r
+                  :EndIf
+              :EndIf
+          :Else
+              SetStatus 400 'Invalid format'
+          :EndIf
+      :EndSelect
+    ∇
+
+    ∇ r←UpdateCustomer;name
+      r←⍬
+      :If ~0∊⍴name←Get'name' ⍝ was a name supplied?
+      :AndIf 1=⍴_URI         ⍝ make sure id was passed in URL
+          r←'custid' 'custname'Annotate(1⊃_URI)#.bl.UpdateCustomer name
+      :EndIf
+    ∇
+
+    ∇ r←DeleteCustomer
+      r←⍬
+      :If 1=⍴_URI    ⍝ make sure id was passed in URL
+      :AndIf 0∊⍴GetNames''        ⍝ and nothing in the query string
+          r←#.bl.DeleteCustomer 1⊃_URI
+          r←'custinfo' 'orders' 'details'#.JSON.toNS('custid' 'custname')('orderid' 'custid' 'orderdate')('orderid' 'qty' 'productid' 'productname')Annotate¨r
+      :EndIf
+    ∇
+
+
+    ∇ r←Documentation
+      SetContentType'txt'
+      r←ScriptFollows~⎕UCS 10
+  ⍝  The following operations are supported for /customer
+  ⍝  GET
+  ⍝    /customer/                       list of all customers
+  ⍝    /customer/custid/                information on a specific customer
+  ⍝    /customer/custid/order/          information about a specific customer's orders
+  ⍝    /customer/custid/order/orderid/  details for a specific order for a specific customer
+  ⍝
+  ⍝  POST
+  ⍝   /customer/                        create a new customer
+  ⍝   form variable: name
+  ⍝
+  ⍝  PUT
+  ⍝   /customer/custid                  update customer information for a specific customer
+  ⍝   form variable: name
+  ⍝
+  ⍝  DELETE
+  ⍝   /customer/custid                  delete a specific customer
+  ⍝
+  ⍝  OPTIONS
+  ⍝   /customer/                        return this documentation
+    ∇
+
+
+⍝---------------------------⍝
+⍝ Constructor and Utilities ⍝
+⍝---------------------------⍝
+
+    ∇ make;config
+    ⍝ This is called when an instance of this page is first created
+    ⍝ It performs some basic setup for demonstration purposes
+      :Implements constructor
+      :Access public
+      :Trap 6
+          config←#.Boot.ms.Config
+          :If 0=config.⎕NC'Address' ⋄ Address←'localhost:',⍕config.Port
+          :Else ⋄ Address←config.Address
+          :EndIf
+      :Else
+          Address←''
+      :EndTrap
+    ∇
+
+    makeURI←{'http://',Address,'/',⍺,'/',(⍕⍵),'/'}
+    makeCustomerURI←'Customer'∘makeURI
+    makeOrderURI←'Order'∘makeURI
+    makeProductURI←'Product'∘makeURI
+
+    Annotate←{0∊⍴⍵:⍵ ⋄ ⍺ #.JSON.fromTable toMat ⍵}
+    toMat←{{⍵{((×/¯1↓⍵),¯1↑⍵)⍴⍺}⍴⍵}eis ⍵}
+
+
+:EndClass

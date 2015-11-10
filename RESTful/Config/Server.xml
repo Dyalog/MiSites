@@ -1,0 +1,9 @@
+<Server>
+    <Name>MiServer Sample RESTful Application</Name>
+
+    <ClassName>SimpleSampleServer</ClassName>
+
+    <RESTful>1</RESTful>
+
+    <AllowedHttpCommands>get,put,delete,post,options</AllowedHttpCommands>
+</Server>
