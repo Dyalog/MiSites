@@ -70,7 +70,7 @@
       r←⍬
       :If 1=⍴_URI    ⍝ make sure id was passed in URL
       :AndIf 0∊⍴GetNames''        ⍝ and nothing in the query string
-          r←#.bl.DeleteCustomer 1⊃_URI
+      :AndIf ~0∊⍴r←#.bl.DeleteCustomer 1⊃_URI
           r←'custinfo' 'orders' 'details'#.JSON.toNS('custid' 'custname')('orderid' 'custid' 'orderdate')('orderid' 'qty' 'productid' 'productname')Annotate¨r
       :EndIf
     ∇
