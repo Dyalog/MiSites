@@ -1,0 +1,99 @@
+﻿:Class index : MiPage
+
+    Order←⍬
+    SubTotal←0
+    fmtCost←{'$',1↓2⍕⍵}
+
+    ∇ Compose
+      :Access public
+⍝ first lay out the order form and cart panels
+      orderForm←New #._.Form
+      cartPanel←New _.StackPanel(New _.h3'Your Order')('subOrders'New _.div)
+      (Add _.StackPanel orderForm cartPanel).Horizontal←1
+     
+⍝ then within the order form, lay out the divisions for burgers, sides, and drinks
+      orderPanel←orderForm.Add _.StackPanel
+     
+⍝ burgers have sub panels for size, bun type, and toppings
+      burgerPanel←orderPanel.Add _.Fieldset'Burgers'
+     
+      sizePanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Size'
+      sizePanel.Add 3 formatInputs'size'∘('radio'formatMenuItem)¨#.BusinessLogic.Menu.burgers.size
+     
+      bunPanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Bun Type'
+      bunPanel.Add 2 formatInputs'bun'∘('radio'formatMenuItem)¨#.BusinessLogic.Menu.burgers.buns
+     
+      toppingsPanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Toppings'
+      toppingsPanel.Add 3 formatInputs'toppings'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.burgers.toppings
+     
+⍝ add the panel for sides
+      sidesPanel←orderPanel.Add _.Fieldset'Sides'
+      sidesPanel.Add 2 formatInputs'sides'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.sides
+     
+⍝ add the panel for drinks
+      drinksPanel←orderPanel.Add _.Fieldset'Drinks'
+      drinksPanel.Add 3 formatInputs'drinks'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.drinks
+     
+⍝ add a div with the subtotal and buttons to add the subtotal to the order or reset the panel
+     
+      (subOrder←orderPanel.Add _.StackPanel).Horizontal←1
+      subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
+      ('buttons'subOrder.Add _.div).Add'add' 'reset'{⍺ New _.Button ⍵}¨'Add To Order' 'Reset'
+     
+      Add _.Handler'input,button' 'click select' 'checkPage'
+    ∇
+
+    ∇ r←checkPage;size;bun;toppings;subOrder;pageData
+      :Access public
+      r←''
+     
+      :If 0∊⍴pageData←{0::'' ⋄ ⍵{⍺⍎⍵}¨⍵.⎕NL-2}_PageData
+          subOrder←0 3⍴'' '' 0
+      :Else
+          subOrder←#.BusinessLogic.FoodItems{(⍺⍪'' '' 0)[⍺[;1]⍳⍵;]}⊃,/eis¨pageData
+      :EndIf
+     
+      :Select _what
+      :Case 'add'
+          Order,←⊂subOrder
+          r,←'#subOrders'Append(New _.Table subOrder)
+          r,←Execute'input'_JSS.RemoveAttr'checked'
+          SubTotal←0
+     
+      :Case 'reset'
+          r,←Execute'input'_JSS.RemoveAttr'checked'
+          SubTotal←0
+     
+      :Case 'order'
+          ∘∘∘
+     
+      :Else
+          size bun toppings←Get'size bun toppings'
+          :If 0∊⍴size  ⍝ if no burger size has been selected
+          :AndIf ∨/~0∘∊∘⍴¨bun toppings  ⍝ and a bun or toppings have been
+              r,←Execute('#',(⊃#.BusinessLogic.Menu.burgers.size).id)#._JSS.Prop'checked'_true ⍝ select the first size
+          :EndIf
+          :If 0∊⍴bun  ⍝ if no burger size has been selected
+          :AndIf ∨/~0∘∊∘⍴¨size toppings  ⍝ and a bun or toppings have been
+              r,←Execute('#',(⊃#.BusinessLogic.Menu.burgers.buns).id)#._JSS.Prop'checked'_true ⍝ select the first bun
+          :EndIf
+          SubTotal←+/subOrder[;3]
+      :EndSelect
+      r,←'#subtotal'Replace fmtCost SubTotal
+    ∇
+
+
+    ∇ r←inputName(inputType formatMenuItem)item;caption
+      caption←item.name
+      :If item.cost≠0
+          caption,←' (',(9×item.cost>0)↓'subtract $',(1↓2⍕|item.cost),')'
+      :EndIf
+      r←(item.id('name'inputName))New _.Input inputType item.id caption'right'
+    ∇
+
+    ∇ r←columns formatInputs inputs
+      :Access public
+      r←New _.Table(((⌈(⍴inputs)÷columns),columns)⍴inputs,columns⍴⊂'')
+    ∇
+
+:EndClass
