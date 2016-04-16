@@ -1,4 +1,4 @@
-﻿:Class index : MiPage
+﻿:Class index2 : bbbPage
 
     :field public Order
     SubTotal←0
@@ -19,7 +19,7 @@
       orderPanel←orderForm.Add _.StackPanel
      
 ⍝ burgers have sub panels for size, bun type, and toppings
-      burgerPanel←orderPanel.Add _.Fieldset'Burgers'
+      burgerPanel←'burgerFieldSet'orderPanel.Add _.Fieldset'Burgers'
      
       sizePanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Size'
       sizePanel.Add 3 formatInputs'size'∘('radio'formatMenuItem)¨#.BusinessLogic.Menu.burgers.size
@@ -40,9 +40,9 @@
      
 ⍝ add a div with the subtotal and buttons to add the subtotal to the order or reset the panel
      
-      (subOrder←orderPanel.Add _.StackPanel).Horizontal←1
-      subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
-      ('buttons'subOrder.Add _.div).Add'add' 'reset'{⍺ New _.Button ⍵}¨'Add To Order' 'Reset'
+      (subOrder←'subOrder'orderPanel.Add _.StackPanel).Horizontal←1
+      'subTotalPanel'subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
+      ('buttons'subOrder.Add _.div).Add(('add' 'disabled')'reset'){⍺ New _.Button ⍵}¨'Add To Order' 'Reset'
      
 ⍝ add order buttons and total display area
       orderControls.Add(('order' 'disabled')'cancel'){⍺ New _.Button ⍵}¨'Place Order' 'Cancel Order'
@@ -75,6 +75,7 @@
           r,←Execute'input'_JSS.RemoveAttr'checked'
           r,←'#orderTotal'Replace'Order Total: ',fmtCost+/orderTable[;3]
           r,←Execute'#order'_JSS.Prop'disabled'_false
+          r,←Execute'#add'_JSS.Prop'disabled'_true
           SubTotal←0
      
       :Case 'reset'
@@ -101,6 +102,7 @@
               subOrder⍪←bun.(id name cost)
           :EndIf
           SubTotal←+/subOrder[;3]
+          r,←Execute'#add'_JSS.Prop'disabled'_false
       :EndSelect
       r,←'#subtotal'Replace fmtCost SubTotal
     ∇
@@ -109,7 +111,7 @@
     ∇ r←inputName(inputType formatMenuItem)item;caption
       caption←item.name
       :If item.cost≠0
-          caption,←' (',(9×item.cost>0)↓'subtract ',(fmtCost item.cost),')'
+          caption,←' (',(9×item.cost>0)↓'subtract ',('-'~⍨fmtCost item.cost),')'
       :EndIf
       r←(item.id('name'inputName))New _.Input inputType item.id caption'right'
     ∇

@@ -1,0 +1,8 @@
+﻿:Class test : MiPage
+
+    ∇ Compose
+      :Access public
+      Add _.Table (0 3⍴⊂'')
+    ∇
+
+:EndClass

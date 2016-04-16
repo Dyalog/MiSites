@@ -1,22 +1,17 @@
-﻿/*This is a sample Cascading Style Sheet (CSS) for MiServer */
-/*If you want to learn more about CSS, please visit http://www.w3schools.com/css/css_intro.asp*/
+﻿/*
+This is a sample Cascading Style Sheet (CSS) for MiServer 
+If you want to learn more about CSS, please visit http://www.w3schools.com/css/css_intro.asp  
+*/
 
-/*CSS Reset - Increases Browser Compatability*/
+/*
+CSS Reset - Increases Browser Compatability
+*/
 
 html{color:#000;background:#000}
-/* body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{
-margin:0;padding:0}
-*/
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote{
-margin:0;padding:0}
-/*
-table{border-collapse:collapse;border-spacing:0}
-*/
-fieldset,img{border:0}
-address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}li{list-style:none}
+body,div,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,input,p{margin:0;padding:0}
+/* fieldset,img{border:0} */
+caption,cite,code,em,strong,th,var{font-style:normal;font-weight:normal}li{list-style:none}
 caption,th{text-align:left}
-sup{vertical-align:text-top}
-sub{vertical-align:text-bottom}
 input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
 input,textarea,select{font-size:100%}legend{color:#000}
 
@@ -30,24 +25,71 @@ margin-top: 0px;
 font-size: 1.1em;
 }
 
+#subOrder{
+  width:100%;
+}
+
+
+#buttons{
+  float:right;
+}
+
 #wrapper {
-background-color: #FFFFCC;
+background-color: aliceblue;
 width: 1000px;
 margin: 10px auto;
+}
+
+.subFieldSet{
+  padding:5px;
+  margin:5px;
+}
+
+fieldset{
+  background-color: antiquewhite;
+  border-radius:5px;
+}
+
+#subTotalPanel{
+  font-size:1.1em;
+  text-align: center;
+}
+label{
+  padding-left:5px;
+  padding-right:10px;
+}
+#orderSummary,#orderTable,#orderPage{
+  width:100%;
+}
+
+input[type=radio]{
+  vertical-align: middle;
+}
+input[type=checkbox]{
+  vertical-align: middle;
+}
+
+
+legend{
+  padding: 0px 3px 0px 3px;
+  background-color:aliceblue; 
+}
+
+button{
+  border-radius: 5px;
+  width:100px;
+  margin-left:10px;
+  margin-right:10px; 
 }
 
 /*Template Banner*/
 
 #banner {
-/* background: #997799; */
+background-color:bisque;
 border-bottom: 3px #997799; 
 padding: 10px;
 }
  
-#bannernav {
-float: right
-}
-
 #bannertext {
 font-size: .8em;
 float: left;
@@ -61,45 +103,10 @@ float: left;
 height:45px;
 }
 
-
-#banner a { 
-color: #FF9933; 
-font-weight: bold;
-text-decoration: none;
-font-size: .7em;
-}
-
-#banner a:hover	{
-color: #cc3300;
-font-weight: bold;
-text-decoration: none;
-}
-
-ul#nav {
-list-style:none;
-padding:0;
-}
-
-/*Template Navigation Bar*/
-ul#nav li {
-display:inline
-}
-
-ul#nav li a {
-text-decoration:none;
-padding:5px 0;
-width:100px;
-background:#336699;
-color:#eee;
-float:left;
-text-align:center;
-font-size:1.0em;
-/*border-left:1px solid #fff;*/
-}
-
-ul#nav li a:hover {
-background:silver;
-color:#000
+.logotext {
+font-family:Georgia, "Times New Roman", Times, serif;
+font-weight:400;
+font-style:italic;
 }
 
 /*Template Content Area Styles*/

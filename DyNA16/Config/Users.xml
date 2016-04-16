@@ -1,0 +1,12 @@
+<Users>
+   <User>
+      <ID>chef</ID>
+      <Pass>boyrdee</Pass>
+      <Groups>kitchen</Groups>
+   </User>
+   <User>
+      <ID>brian</ID>
+      <Pass>bossman</Pass>
+      <Groups>admin</Groups>
+   </User>
+</Users>

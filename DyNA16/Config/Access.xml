@@ -1,0 +1,14 @@
+<Access>
+   <Folder>
+      <Path>/Kitchen</Path>
+      <Groups>kitchen,admin</Groups>
+   </Folder>
+   <Folder>
+      <Path>/Admin</Path>
+      <Groups>admin</Groups>
+   </Folder>
+   <Folder>
+      <Path>**</Path>
+      <Groups>**</Groups>
+   </Folder>
+</Access>

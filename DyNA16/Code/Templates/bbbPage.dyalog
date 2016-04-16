@@ -10,23 +10,23 @@
       Use'JQuery' ⍝ "JQuery" is a resource defined in Config/Resources.xml
      
     ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
-      Add title _Request.Server.Config.Name
+      Add _.title _Request.Server.Config.Name
      
     ⍝ add a link to our CSS stylesheet
-      (Add link).SetAttr(('href' '/Styles/style.css')('rel' 'stylesheet')('type' 'text/css'))
+      Add _.StyleSheet'/Styles/style.css'
      
     ⍝ set a meta tag to make it explicitly UTF-8
-      (Add meta).SetAttr'http-equiv="content-type" content="text/html;charset=UTF-8"'
+      (Add _.meta).Set'http-equiv="content-type" content="text/html;charset=UTF-8"'
      
 ⍝↓↓↓ This section implements the feature to toggle the display between the HTML page and the page's APL source code
     ⍝ wrap the content of the <body> element in a div
-      Body.Push div'id="contentblock"'
+      Body.Push _.div'id="contentblock"'
      
     ⍝ add a hidden division to the body containing the APL source code
-      (Add div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).SetAttr'id="codeblock" style="display: none;"'
+      (Add _.div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
      
     ⍝ add a JQuery event handler to toggle the web page/APL source code
-      Add Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
+      Add _.Script'$(function(){$("#bannerimage").on("click", function(evt){$("#contentblock,#codeblock").toggle();});});'
 ⍝↑↑↑
      
     ⍝ add the footer to the bottom of the page
@@ -34,12 +34,11 @@
      
     ⍝ add the header to the top of the page
       Body.Push #.Files.GetText _Request.Server.Config.Root,'Styles\banner.txt'
-
+     
     ⍝ enclose the page content in a div with id="wrapper"
-      Body.Push div'id="wrapper"'
-
-⍝↓↓↓ your page must     
-    ⍝ call the base class Wrap function
+      Body.Push _.div'id="wrapper"'
+     
+⍝↓↓↓ your page must call the base class Wrap function
       ⎕BASE.Wrap
     ∇
 

@@ -1,0 +1,8 @@
+﻿:Class index : MiPage
+
+    ∇ Compose
+      :Access public
+      Add _.h2 'Admin Page stub'
+    ∇
+
+:EndClass
