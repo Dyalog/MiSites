@@ -1,8 +1,4 @@
-﻿:Class index2 : bbbPage
-
-    :field public Order
-    SubTotal←0
-    fmtCost←{'$',1↓2 #.Strings.fmtNum ⍵}
+﻿:Class Step2 : MiPage
 
     ∇ Compose
       :Access public

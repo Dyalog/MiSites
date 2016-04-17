@@ -2,7 +2,96 @@
 
     ∇ Compose
       :Access public
-      Add _.h2 'Admin Page stub'
+      Add _.h2'Admin Page stub'
+      chart←Add _.ejChart
+      'primaryXAxis.title.text'chart.Set'Time'
+      'primaryYAxis.title.text'chart.Set'Sales'
+      'axes.   '
+⍝			primaryXAxis:
+⍝   {
+⍝     title: { text: "Time" },
+⍝     range: { interval: 20},
+⍝     intervalType: "minutes"
+⍝   },
+⍝
+⍝   primaryYAxis:
+⍝   {
+⍝     title: { text: "Sales" },
+⍝     labelFormat: "${value}"
+⍝   },
+⍝
+⍝   axes:
+⍝	  [
+⍝   {
+⍝     majorGridLines:
+⍝       {
+⍝			   			visible: false
+⍝       },
+⍝     orientation: 'Vertical',
+⍝     opposedPosition: true,
+⍝     axisLine: { visible: false },
+⍝     rangePadding: 'normal',
+⍝     name: 'yAxis',
+⍝     title: { text: "Orders" }
+⍝   }
+⍝   ],	
+⍝			
+⍝			commonSeriesOptions:
+⍝			{
+⍝     tooltip: { visible: true }
+⍝  	},
+⍝			
+⍝			//Initializing Series
+⍝			series:
+⍝			[
+⍝				{
+⍝                    points: [{ x: "Jan", y: 45 }, { x: "Feb", y: 100 }, { x: "March", y: 25 },
+⍝							 { x: "April", y: 100 }, { x: "May", y: 85 }, { x: "June", y: 140 }],
+⍝                    fill:"#69D2E7",
+⍝                    name: 'Unit Sold',
+⍝					type: 'column',
+⍝					enableAnimation: true,
+⍝                    tooltip:
+⍝					{
+⍝						format: "#point.x# <br/> Unit Sold : #point.y# <br/>"
+⍝					}
+⍝                },				
+⍝				{
+⍝                    points: [{ x: "Jan", y: 1000 }, { x: "Feb", y: 3000 }, { x: "March", y: 1000 },
+⍝							 { x: "April", y: 7000 }, { x: "May", y: 5000 }, { x: "June", y: 7000 }],
+⍝					name: 'Total Transaction',
+⍝					type: 'line',
+⍝					enableAnimation: true,
+⍝					yAxisName: 'yAxis',
+⍝					tooltip:
+⍝					{
+⍝						format: "#point.x# <br/> Profit : #point.y# <br/>"
+⍝					},
+⍝                    marker:
+⍝                    {
+⍝                        shape: 'circle',
+⍝                        size:
+⍝                        {
+⍝                            height: 8, width: 8
+⍝                        },
+⍝                        visible: true
+⍝                    },
+⍝                    border:{width: 2 }
+⍝				}
+⍝            ],
+⍝            load: "loadTheme",
+⍝            isResponsive: true,
+⍝			title: { text: 'Sales Report ' },
+⍝            size: { height: "600" },
+⍝            legend:
+⍝			{
+⍝				visible: true,
+⍝				font: { size: '15px' },
+⍝				shape: 'seriesType',
+⍝				position: 'Top',
+⍝				itemStyle: { width: 15, height: 15 }
+⍝			}
+⍝        });
+⍝	});
     ∇
-
 :EndClass

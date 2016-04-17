@@ -1,0 +1,9 @@
+﻿:Class menu : RESTful
+    
+    ∇ r←Respond
+      :Access Public     
+      (r←⎕NS'').menu←#.BusinessLogic.Menu
+    ∇
+
+:EndClass
+

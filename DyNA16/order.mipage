@@ -1,0 +1,61 @@
+﻿:Class order : RESTful
+⍝ This page implements the web service API to place an order
+⍝ The expected argument is a JSON vector of vectors of order item ids
+⍝ An example on how to call would be to use HTTPSamples.HTTPPost
+⍝       )load conga
+⍝       data←⎕NS ''
+⍝       data.order←←'[["single","white","ketchup","onionrings","cola"],["double","wheat","bacon","cheddar","icedtea"]]'
+⍝  OR   data.order←(7160⌶)(('single' 'white' 'ketchup' 'onionrings' 'cola')('double' 'wheat' 'bacon' 'cheddar' 'icedtea'))
+⍝       Samples.HTTPPost 'localhost:8080/order' data
+
+    ∇ r←Respond;order;rc
+      :Access Public
+     
+      :If ~_Request.isPost  ⍝ make sure it's an HTTP POST method
+          _Request.Fail 405 ⍝ otherwise fail with status 405 (HTTP Invalid Method)
+          →0
+      :EndIf
+     
+      r←⎕NS''
+      :Select ⊃(rc order)←MakeOrder Get'order'
+      :Case 0 ⍝ valid order
+          r.OrderNo←#.BusinessLogic.PlaceOrder order
+          r.(OrderDescription OrderTotal)←{⍵(+/⍵[;3])}#.BusinessLogic.FormatOrder order
+          r.Status←'Order Placed'
+          r.Message←''
+      :Case 1 ⍝ invalid items
+          r.Status←'Invalid Order Item'
+          r.Message←order
+      :Case 2 ⍝ invalid order format
+          r.Status←'Invalid Order Format'
+          r.Message←order
+      :EndSelect
+    ∇
+
+    ∇ (rc order)←MakeOrder orderinput;suborder;msg;inds;mask
+      rc←0
+      msg←''
+      order←⍬
+      :If 3=≡orderinput
+      :AndIf ∧/∊#.HtmlElement.isString¨¨orderinput
+          :For suborder :In orderinput
+              inds←#.BusinessLogic.FoodItems[;1]⍳suborder
+              :If ∨/mask←inds>#.Utils.∆tally #.BusinessLogic.FoodItems
+                  msg,←mask/suborder
+                  rc←1
+              :Else
+                  order,←⊂#.BusinessLogic.FoodItems[inds;]
+              :EndIf
+          :EndFor
+          :If rc
+              order←2↓∊', '∘,¨msg
+          :End
+      :Else
+          rc←2
+          order←orderinput
+      :EndIf
+    ∇
+
+
+
+:EndClass
