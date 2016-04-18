@@ -10,18 +10,20 @@
       Order←⍬
       orderForm←New #._.Form
      
-      (orderControls←New _.StackPanel).Horizontal←1
+      (orderControls←'orderControls'New _.StackPanel).Horizontal←1
+      orderControls.style←'display:none'
      
-      cartPanel←New _.StackPanel orderControls('orderSummary'New _.div)
-      ('orderPage'Add _.StackPanel orderForm cartPanel).Horizontal←1
+      cartPanel←New _.StackPanel orderControls('orderSummary'New _.div)('orderTotal'New _.div)
+      (orderPage←'orderPage'Add _.StackPanel orderForm cartPanel).Horizontal←1
+      orderPage.Items.id←'orderPanel' 'cartPanel'
      
 ⍝ then within the order form, lay out the divisions for burgers, sides, and drinks
-      orderPanel←orderForm.Add _.StackPanel
+      orderItems←'orderItems'orderForm.Add _.StackPanel
      
 ⍝ burgers have sub panels for size, bun type, and toppings
-      burgerPanel←'burgerFieldSet'orderPanel.Add _.Fieldset'Burgers'
+      burgerPanel←'burgerFieldSet'orderItems.Add _.Fieldset'Burgers'
      
-      sizePanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Size'
+      sizePanel←'sizeFieldSet' '.subFieldSet'burgerPanel.Add _.Fieldset'Size'
       sizePanel.Add 3 formatInputs'size'∘('radio'formatMenuItem)¨#.BusinessLogic.Menu.burgers.size
      
       bunPanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Bun Type'
@@ -31,22 +33,21 @@
       toppingsPanel.Add 3 formatInputs'toppings'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.burgers.toppings
      
 ⍝ add the panel for sides
-      sidesPanel←orderPanel.Add _.Fieldset'Sides'
+      sidesPanel←orderItems.Add _.Fieldset'Sides'
       sidesPanel.Add 2 formatInputs'sides'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.sides
      
 ⍝ add the panel for drinks
-      drinksPanel←orderPanel.Add _.Fieldset'Drinks'
+      drinksPanel←orderItems.Add _.Fieldset'Drinks'
       drinksPanel.Add 3 formatInputs'drinks'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.drinks
      
 ⍝ add a div with the subtotal and buttons to add the subtotal to the order or reset the panel
      
-      (subOrder←'subOrder'orderPanel.Add _.StackPanel).Horizontal←1
+      (subOrder←'subOrder'orderItems.Add _.StackPanel).Horizontal←1
       'subTotalPanel'subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
       ('buttons'subOrder.Add _.div).Add(('add' 'disabled')'reset'){⍺ New _.Button ⍵}¨'Add To Order' 'Reset'
      
 ⍝ add order buttons and total display area
       orderControls.Add(('order' 'disabled')'cancel'){⍺ New _.Button ⍵}¨'Place Order' 'Cancel Order'
-      'orderTotal'orderControls.Add _.div
      
       thankYou←'thankYouPage'Add _.div''
       thankYou.style←'display:none;'
@@ -74,6 +75,7 @@
           r,←'#orderSummary'Replace('orderTable'New _.Table(('Qty' 'Item' 'Cost'⍪{⍵[;1 2],fmtCost¨⍵[;3]}orderTable)'' 1))
           r,←Execute'input'_JSS.RemoveAttr'checked'
           r,←'#orderTotal'Replace'Order Total: ',fmtCost+/orderTable[;3]
+          r,←Execute'#orderControls'#._JSS.Show''
           r,←Execute'#order'_JSS.Prop'disabled'_false
           r,←Execute'#add'_JSS.Prop'disabled'_true
           SubTotal←0
