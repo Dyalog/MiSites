@@ -25,6 +25,7 @@
     ⍝ called when a customer places an order
       :Hold 'OrderUpdate'
           :If OrderFileDate≢today←3↑⎕TS ⍝ new day?
+          :OrIf ~OrderFile∊⎕FNUMS
               ⎕FUNTIE OrderFile
               OrderFile←OpenOrderFile OrderFileDate←today
           :EndIf
@@ -93,11 +94,6 @@
       :EndIf
     ∇
 
-
-    ∇ r←formatQueues
-      orders←⎕FREAD OrderFile,2
-    ∇
-
     ∇ r←GetOrdersData date;tn
       tn←OpenOrderFile date
       :If ~0∊⍴r←5↓⎕FREAD tn,2
@@ -105,6 +101,13 @@
           r,←⌽⌈0.001×0 60 60 1000∘⊥¨3↓¨#.Dates.IDNToDate¨2-/r[;8 7 6] ⍝ append differences (in seconds) ordered→taken→completed
       :EndIf
       ⎕FUNTIE tn
+    ∇
+
+    ∇ r←GetOrders type;ordernos;dir
+      r←0 2⍴0
+      :If ~0∊⍴ordernos←{(⍵[;1]=type)/⍳⍬⍴⍴⍵}dir←⎕FREAD OrderFile,2
+          r←ordernos,⍪FormatOrder¨⎕FREAD OrderFile ordernos
+      :EndIf
     ∇
 
     ∇ r←buckets bucket data

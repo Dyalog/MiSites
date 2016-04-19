@@ -1,55 +1,60 @@
-﻿:Class index : MiPage
+﻿:Class index2 : bbbPage
 
-    :field public Order
+    :Field Public Order
+
     SubTotal←0
     fmtCost←{'$',1↓2 #.Strings.fmtNum ⍵}
 
-    ∇ Compose
-      :Access public
+    ∇ Compose;data
+      :Access Public
+
 ⍝ first lay out the order form and cart panels
-      Order←⍬
-      orderForm←New #._.Form
+      Order←⍬ 
+      data←#.BusinessLogic.Menu
+
+      orderForm←New _.Form
      
-      (orderControls←New _.StackPanel).Horizontal←1
+      (orderControls←'orderControls'New _.StackPanel).Horizontal←1
+      orderControls.style←'display:none'
      
-      cartPanel←New _.StackPanel orderControls('orderSummary'New _.div)
-      ('orderPage'Add _.StackPanel orderForm cartPanel).Horizontal←1
+      cartPanel←New _.StackPanel orderControls('orderSummary'New _.div)('orderTotal'New _.div)
+      (orderPage←'orderPage'Add _.StackPanel orderForm cartPanel).Horizontal←1
+      orderPage.Items.id←'orderPanel' 'cartPanel'
      
 ⍝ then within the order form, lay out the divisions for burgers, sides, and drinks
-      orderPanel←orderForm.Add _.StackPanel
+      orderItems←'orderItems'orderForm.Add _.StackPanel
      
 ⍝ burgers have sub panels for size, bun type, and toppings
-      burgerPanel←orderPanel.Add _.Fieldset'Burgers'
+      burgerPanel←'burgerFieldSet'orderItems.Add _.Fieldset'Burgers'
      
-      sizePanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Size'
-      sizePanel.Add 3 formatInputs'size'∘('radio'formatMenuItem)¨#.BusinessLogic.Menu.burgers.size
+      sizePanel←'sizeFieldSet' '.subFieldSet'burgerPanel.Add _.Fieldset'Size'
+      sizePanel.Add 3 inputTable'size'∘('radio' makeItem)¨data.burgers.size
      
       bunPanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Bun Type'
-      bunPanel.Add 2 formatInputs'bun'∘('radio'formatMenuItem)¨#.BusinessLogic.Menu.burgers.bun
+      bunPanel.Add 2 inputTable 'bun'∘('radio'makeItem)¨data.burgers.bun
      
       toppingsPanel←'.subFieldSet'burgerPanel.Add _.Fieldset'Toppings'
-      toppingsPanel.Add 3 formatInputs'toppings'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.burgers.toppings
+      toppingsPanel.Add 3 inputTable'toppings'∘('checkbox'makeItem)¨data.burgers.toppings
      
 ⍝ add the panel for sides
-      sidesPanel←orderPanel.Add _.Fieldset'Sides'
-      sidesPanel.Add 2 formatInputs'sides'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.sides
+      sidesPanel←orderItems.Add _.Fieldset'Sides'
+      sidesPanel.Add 2 inputTable 'sides'∘('checkbox'makeItem)¨data.sides
      
 ⍝ add the panel for drinks
-      drinksPanel←orderPanel.Add _.Fieldset'Drinks'
-      drinksPanel.Add 3 formatInputs'drinks'∘('checkbox'formatMenuItem)¨#.BusinessLogic.Menu.drinks
+      drinksPanel←orderItems.Add _.Fieldset'Drinks'
+      drinksPanel.Add 3 inputTable 'drinks'∘('checkbox'makeItem)¨data.drinks
      
 ⍝ add a div with the subtotal and buttons to add the subtotal to the order or reset the panel
      
-      (subOrder←orderPanel.Add _.StackPanel).Horizontal←1
-      subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
-      ('buttons'subOrder.Add _.div).Add'add' 'reset'{⍺ New _.Button ⍵}¨'Add To Order' 'Reset'
+      (subOrder←'subOrder'orderItems.Add _.StackPanel).Horizontal←1
+      'subTotalPanel'subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
+      ('buttons'subOrder.Add _.div).Add(('add' 'disabled')'reset'){⍺ New _.Button ⍵}¨'Add To Order' 'Reset'
      
 ⍝ add order buttons and total display area
       orderControls.Add(('order' 'disabled')'cancel'){⍺ New _.Button ⍵}¨'Place Order' 'Cancel Order'
-      'orderTotal'orderControls.Add _.div
      
       thankYou←'thankYouPage'Add _.div''
-      thankYou.style←'display:none;'
+      thankYou.style←'display:none;' ⍝ Invisible until further notice
       thankYou.Add _.h3'Thank you for your order!'
       thankYou.Add _.h4'Your order number is '('orderNumber'New _.span)
       'again'thankYou.Add _.Button'Continue'
@@ -58,7 +63,9 @@
     ∇
 
     ∇ r←checkPage;size;bun;toppings;subOrder;pageData
-      :Access public
+      ⍝ Called on the click or select of any input or button
+
+      :Access Public      
       r←''
      
       :If 0∊⍴pageData←{0::'' ⋄ ⍵{⍺⍎⍵}¨⍵.⎕NL-2}_PageData
@@ -74,7 +81,9 @@
           r,←'#orderSummary'Replace('orderTable'New _.Table(('Qty' 'Item' 'Cost'⍪{⍵[;1 2],fmtCost¨⍵[;3]}orderTable)'' 1))
           r,←Execute'input'_JSS.RemoveAttr'checked'
           r,←'#orderTotal'Replace'Order Total: ',fmtCost+/orderTable[;3]
+          r,←Execute'#orderControls'#._JSS.Show''
           r,←Execute'#order'_JSS.Prop'disabled'_false
+          r,←Execute'#add'_JSS.Prop'disabled'_true
           SubTotal←0
      
       :Case 'reset'
@@ -101,26 +110,27 @@
               subOrder⍪←bun.(id name cost)
           :EndIf
           SubTotal←+/subOrder[;3]
+          r,←Execute'#add'_JSS.Prop'disabled'_false
       :EndSelect
       r,←'#subtotal'Replace fmtCost SubTotal
     ∇
 
-
-    ∇ r←inputName(inputType formatMenuItem)item;caption
+    ∇ r←inputName(inputType makeItem)item;caption 
+    ⍝ Create a menu item (with optional cost) as a checkbox or radiobutton
+     
       caption←item.name
-      :If item.cost≠0
-          caption,←' (',(9×item.cost>0)↓'subtract ',(fmtCost item.cost),')'
-      :EndIf
+      :If item.cost≠0 ⍝ Add cost if relevant
+          caption,←' (',(9×item.cost>0)↓'subtract ',('-'~⍨fmtCost item.cost),')'
+      :EndIf           
+
       r←(item.id('name'inputName))New _.Input inputType item.id caption'right'
     ∇
 
-    ∇ r←columns formatInputs inputs
-      :Access public
+    ∇ r←columns inputTable inputs                                         
+    ⍝ Format a list of inputs into a matrix, padding with empty cells
+
       r←New _.Table(((⌈(⍴inputs)÷columns),columns)⍴inputs,columns⍴⊂'')
     ∇
 
-⍝    ∇r←formatOrderItem orderItem
-
-
-
 :EndClass
+

@@ -2,7 +2,17 @@
 
     ∇ Compose
       :Access public
-      Add _.h2 'Kitchen Page Stub'
+      Add _.h3'Order Status Tracking'
+      (main←'main'Add _.StackPanel).Horizontal←1
+      newOrders←'newOrders'main.Add _.StackPanel
+      wipOrders←'wipOrders'main.Add _.StackPanel
+      newOrders.Add'New Orders'
+      new←#.BusinessLogic.GetOrders 0
+      new[;2]←{New _.Table(⍵[;1 2])}¨new[;2]
+      newOrders.Add _.Table new
+      wipOrders.Add'In Progress Orders'
+      wip←#.BusinessLogic.GetOrders 1
+      wip[;2]←{New _.Table(⍵[;1 2])}¨wip[;2]
+      wipOrders.Add _.Table wip
     ∇
-
-:EndClass
+:endclass

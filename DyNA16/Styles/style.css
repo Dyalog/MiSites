@@ -108,6 +108,19 @@ button {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+#thankYouPage{
+  background-color:white;
+  margin:0 auto;
+  width:200px;
+  border-color:black;
+  border-radius:10px;
+  padding:30px;
+  text-align:center;
+}
+#again{
+  margin-top:20px;
+}
+
 /*Template Banner*/
 #banner {
 	background-color: bisque;
