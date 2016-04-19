@@ -1,0 +1,26 @@
+﻿:Class step2 : MiPage
+
+    :Field Public Order
+
+    ∇ Compose;data
+      :Access Public
+     
+⍝ first lay out the order form and cart panels
+     
+      orderForm←New _.Form
+    
+      (orderControls←'orderControls'New _.StackPanel).Horizontal←1
+     
+      cartPanel←New _.StackPanel orderControls(orderSummary←'orderSummary'New _.div)(orderTotal←'orderTotal'New _.div)
+      (orderPage←'orderPage'Add _.StackPanel orderForm cartPanel).Horizontal←1
+      orderPage.Items.id←'orderPanel' 'cartPanel'
+     
+⍝ add some temporary content
+      orderForm.Add'Order Form'
+      orderControls.Add'Order Controls'
+      orderSummary.Add'Order Summary'
+      orderTotal.Add'Order Total'
+    ∇
+
+:EndClass
+

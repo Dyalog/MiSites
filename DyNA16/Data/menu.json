@@ -37,6 +37,11 @@
         "cost": 4,
         "id": "triple",
         "name": "Triple"
+      },
+      {
+        "cost": 5,
+        "id": "bigburger",
+        "name": "Big Burger"
       }
     ],
     "toppings": [
