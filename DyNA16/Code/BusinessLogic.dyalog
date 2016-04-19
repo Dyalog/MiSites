@@ -100,9 +100,10 @@
 
     ∇ r←GetOrdersData date;tn
       tn←OpenOrderFile date
-      r←5↓⎕FREAD tn,2
-      r,←#.Dates.DateToIDN¨r[;2 3 4]                             ⍝ convert timestamps to IDNs
-      r,←⌽⌈0.001×0 60 60 1000∘⊥¨3↓¨#.Dates.IDNToDate¨2-/r[;8 7 6] ⍝ append differences (in seconds) ordered→taken→completed
+      :If ~0∊⍴r←5↓⎕FREAD tn,2
+          r,←#.Dates.DateToIDN¨r[;2 3 4]                             ⍝ convert timestamps to IDNs
+          r,←⌽⌈0.001×0 60 60 1000∘⊥¨3↓¨#.Dates.IDNToDate¨2-/r[;8 7 6] ⍝ append differences (in seconds) ordered→taken→completed
+      :EndIf
       ⎕FUNTIE tn
     ∇
 
@@ -110,9 +111,13 @@
       r←1⌈+/data∘.≥buckets
     ∇
 
-    ∇ r←TwentyMinuteProfile data;steps;timeslots;profile
-      steps←1|#.Dates.DateToIDN¨2016 4 1∘,¨,(9+⍳13)∘.,0 20 40
-      timeslots←steps bucket 1|data[;6]
-      r←{⍺((≢⍵),(+/data[⍵;5]),(5+⊂⍵))}⌸timeslots ⍝ [;1]timeslot [;2]#orders [;3]$total [;4]order numbers
+    ∇ r←TwentyMinuteProfile data;steps;timeslots;profile;times;fmtTimes
+      r←⍬
+      :If ~0∊⍴data
+          steps←1|#.Dates.DateToIDN¨2016 4 1∘,¨times←,(9+⍳13)∘.,0 20 40
+          timeslots←steps bucket 1|data[;6]
+          fmtTimes←↓'ZI2,<:>,ZI2'⎕FMT↑times
+          r←{(fmtTimes[⍺]),((≢⍵),(+/data[⍵;5]),(5+⊂⍵))}⌸timeslots ⍝ [;1]timeslot [;2]#orders [;3]$total [;4]order numbers
+      :EndIf
     ∇
 :EndNamespace

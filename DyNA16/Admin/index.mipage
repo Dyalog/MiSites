@@ -1,97 +1,75 @@
-﻿:Class index : MiPage
+﻿:Class index : bbbPage
 
-    ∇ Compose
+    :field public newdate←⍬
+
+    ∇ Compose;dates
       :Access public
-      Add _.h2'Admin Page stub'
-      chart←Add _.ejChart
-      'primaryXAxis.title.text'chart.Set'Time'
-      'primaryYAxis.title.text'chart.Set'Sales'
-      'axes.   '
-⍝			primaryXAxis:
+      dates←{⍵[⍒⍵]}∊{⊃//⎕VFI 8↑6↓⍵}¨1⌷[2]'Orders*.dcf'#.Files.List #.BusinessLogic.DataPath
+      lastdate←0 100 100⊤⊃dates/⍨dates<100⊥3↑⎕TS
+      datePicker←Add _.ejDatePicker lastdate('yyyyMMdd')
+      datePicker.Label←'Select Log File Date: '
+      datePicker.Options.minDate←'⍎',_JSS.JSDate 0 100 100⊤⊃¯1↑dates
+      datePicker.Options.maxDate←'⍎',_JSS.JSDate 3↑⎕TS
+      datePicker.On'change' 'ChangeDate'('newdate' 'argument' 'value')
+     
+      :If ~0∊⍴newdate
+      :AndIf dates∊⍨newdate←#.Strings.tonum newdate
+          date←0 100 100⊤⊃newdate
+      :Else
+          date←lastdate
+      :EndIf
+     
+      :If 0∊⍴Data←#.BusinessLogic.TwentyMinuteProfile #.BusinessLogic.GetOrdersData date
+          Add _.h3'No Data For: ',⍕date
+          →0
+      :EndIf
+     
+      Add _.Script('x' 'y'('salesData'_JSS.JSData)Data[;1 3])
+      Add _.Script('x' 'y'('orderData'_JSS.JSData)Data[;1 2])
+      chart←'perfChart'Add _.ejChart
+      chart.Options←('∇date∇'(1 #.Dates.DateFormat date))Subst ScriptFollows
+⍝ {
+⍝   title:{text:"Sales Performance",subTitle:{text:"For ∇date∇",textAlignment:"center"}},
+⍝   primaryXAxis:{title:{text:"Time Slot"}},
+⍝   primaryYAxis:{title:{text:"Sales"},labelFormat:"${value}"},
+⍝   chartArea:{background:"white"},
+⍝   axes:[{
+⍝          orientation:"Vertical",
+⍝          opposedPosition:true,
+⍝          name:"yAxis",
+⍝          title:{text:"Orders"},
+⍝          axisline:{visible:false},
+⍝          majorGridLines:{visible:false}
+⍝        }],
+⍝   commonSeriesOptions:{tooltip:{visible:true}},
+⍝   series:
+⍝   [
 ⍝   {
-⍝     title: { text: "Time" },
-⍝     range: { interval: 20},
-⍝     intervalType: "minutes"
+⍝     type: "line",
+⍝     dataSource: salesData,
+⍝     name:"Sales",
+⍝     xName:"x",
+⍝     yName:"y",
+⍝     tooltip:{format:"#point.x#<br/>Sold: #point.y#<br/>"},
+⍝     enableAnimation:true
 ⍝   },
-⍝
-⍝   primaryYAxis:
 ⍝   {
-⍝     title: { text: "Sales" },
-⍝     labelFormat: "${value}"
-⍝   },
-⍝
-⍝   axes:
-⍝	  [
-⍝   {
-⍝     majorGridLines:
-⍝       {
-⍝			   			visible: false
-⍝       },
-⍝     orientation: 'Vertical',
-⍝     opposedPosition: true,
-⍝     axisLine: { visible: false },
-⍝     rangePadding: 'normal',
-⍝     name: 'yAxis',
-⍝     title: { text: "Orders" }
+⍝     type: "line",
+⍝     dataSource: orderData,
+⍝     name:"Orders",
+⍝     xName:"x",
+⍝     yName:"y",
+⍝     yAxisName:"yAxis",
+⍝     tooltip:{format:"#point.x#<br/>Orders: #point.y#<br/>"},
+⍝     enableAnimation:true
 ⍝   }
-⍝   ],	
-⍝			
-⍝			commonSeriesOptions:
-⍝			{
-⍝     tooltip: { visible: true }
-⍝  	},
-⍝			
-⍝			//Initializing Series
-⍝			series:
-⍝			[
-⍝				{
-⍝                    points: [{ x: "Jan", y: 45 }, { x: "Feb", y: 100 }, { x: "March", y: 25 },
-⍝							 { x: "April", y: 100 }, { x: "May", y: 85 }, { x: "June", y: 140 }],
-⍝                    fill:"#69D2E7",
-⍝                    name: 'Unit Sold',
-⍝					type: 'column',
-⍝					enableAnimation: true,
-⍝                    tooltip:
-⍝					{
-⍝						format: "#point.x# <br/> Unit Sold : #point.y# <br/>"
-⍝					}
-⍝                },				
-⍝				{
-⍝                    points: [{ x: "Jan", y: 1000 }, { x: "Feb", y: 3000 }, { x: "March", y: 1000 },
-⍝							 { x: "April", y: 7000 }, { x: "May", y: 5000 }, { x: "June", y: 7000 }],
-⍝					name: 'Total Transaction',
-⍝					type: 'line',
-⍝					enableAnimation: true,
-⍝					yAxisName: 'yAxis',
-⍝					tooltip:
-⍝					{
-⍝						format: "#point.x# <br/> Profit : #point.y# <br/>"
-⍝					},
-⍝                    marker:
-⍝                    {
-⍝                        shape: 'circle',
-⍝                        size:
-⍝                        {
-⍝                            height: 8, width: 8
-⍝                        },
-⍝                        visible: true
-⍝                    },
-⍝                    border:{width: 2 }
-⍝				}
-⍝            ],
-⍝            load: "loadTheme",
-⍝            isResponsive: true,
-⍝			title: { text: 'Sales Report ' },
-⍝            size: { height: "600" },
-⍝            legend:
-⍝			{
-⍝				visible: true,
-⍝				font: { size: '15px' },
-⍝				shape: 'seriesType',
-⍝				position: 'Top',
-⍝				itemStyle: { width: 15, height: 15 }
-⍝			}
-⍝        });
-⍝	});
+⍝   ]
+⍝ }
+    ∇
+
+    ∇ r←ChangeDate;date
+      :Access public
+      date←#.Strings.tonum Get'newdate'
+      r←Execute'window.location.href="/admin/?newdate=',(⍕newdate),'"'
     ∇
 :EndClass
