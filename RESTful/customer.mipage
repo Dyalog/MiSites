@@ -5,16 +5,11 @@
       r←''
      
       :Select _Command  ⍝ which HTTP command?
-      :Case 'post'   ⍝ create new customer
-          r←AddCustomer
-      :Case 'get'    ⍝ retrieve
-          r←GetCustomer
-      :Case 'put'    ⍝ update
-          r←UpdateCustomer
-      :Case 'delete' ⍝ delete
-          r←DeleteCustomer
-      :Case 'options' ⍝ documentation
-          r←Documentation
+      :Case 'post' ⋄ r←AddCustomer       ⍝ create new customer
+      :Case 'get' ⋄ r←GetCustomer        ⍝ retrieve
+      :Case 'put' ⋄ r←UpdateCustomer     ⍝ update
+      :Case 'delete' ⋄ r←DeleteCustomer  ⍝ delete
+      :Case 'options' ⋄ r←Documentation  ⍝ documentation
       :Else ⍝ invalid command
           SetStatus 400 ⍝ Bad Request
           →0

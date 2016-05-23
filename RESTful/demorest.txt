@@ -1,24 +1,29 @@
-﻿site←'c:\git\misites\restful\'   ⍝ Edit Me!
+﻿(0=#.⎕NC 'Boot.AppRoot')/'Please start the restful MiSite, then continue the demo'
+
+site←#.Boot.AppRoot
+
 ⎕CMD 'notepad.exe ',site,'Config\Server.xml' ⍝ Examine configuration settings
-Start site  ⍝ Start MiServer 
+
 (⎕ED ⍠ 'ReadOnly' 1) 'SimpleSampleServer'  ⍝ Note onServerStart
+
 ⎕SE.SALT.Load site,'customer.mipage'  ⍝ Load the customer page/application
+
 #.bl.Show  ⍝ Show the "database"
+
 (⎕ED ⍠ 'ReadOnly' 1) 'customer' ⍝ Examine ∇Respond
+
 ⊃z←('options' HTTPCmd) 'localhost:8080/customer/'  ⍝ expect a 0 return code
 2⊃z ⍝ HTTP headers
 3⊃z ⍝ data (service documentation in this case)  
 ⊃(rc hdr data)←('get' HTTPCmd) 'localhost:8080/customer/'  ⍝ expect a 0 return code
 hdr ⍝ HTTP headers
 data ⍝ all customers
-toJSON←0 1∘(7160⌶)
-fromJSON←(7159⌶)
-fmtJSON←toJSON∘fromJSON
+toJSON←0 1∘(7160⌶) ⋄ fromJSON←(7159⌶) ⋄ fmtJSON←toJSON∘fromJSON ⍝ define some utilities
 ⊢cust←fromJSON data
 ↑cust.(custid custname custURI)  ⍝ open a link
 toJSON cust  
-fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200'
-fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/'    ⍝ all orders for customer
+fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200'           ⍝ get customer 1200
+fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/'    ⍝ all orders for customer 1200
 fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/9/'  ⍝ Edit me! (insert order number) order details
 ('get' HTTPCmd) 'localhost:8080/customer/0'   ⍝ non-existent customer (note 404 HTTP status code)
 ('post' HTTPCmd) 'localhost:8080/customer/' ('name' 'Nick') ⍝ add a new customer
