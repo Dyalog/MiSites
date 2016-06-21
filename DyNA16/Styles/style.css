@@ -1,4 +1,4 @@
-﻿/*
+/*
 This is the CSS style sheet for Brian's Burger Bistro
 If you want to learn more about CSS, please visit http://www.w3schools.com/css/css_intro.asp  
 */
@@ -6,352 +6,542 @@ If you want to learn more about CSS, please visit http://www.w3schools.com/css/c
 CSS Reset - Increases Browser Compatability
 */
 html {
-	color: #000;
-	background: #000;
+    /* color: #000; */
+    /* background: #000; */
 }
+
 body, div, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, input, p {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /*Template Body and Wrapper*/
 body {
-	color: #000000;
-	background-color: black;
-	font-family: Verdana;
-	margin-top: 0px;
-	font-size: 1.1em;
+    color: gold;
+    /* background-color: #300; */
+    font-family: Trebuchet MS, Helvetica, sans-serif;
+    margin-top: 0px;
+    font-size: 1.2em;
+    font-weight: bold;
+    /* background-image: url("/Styles/Images/cheeseburger-and-fries.jpg"); */
 }
+
 #wrapper {
-	background-color: aliceblue;
-	width: 900px;
-	margin: 10px auto;
-	border-radius: 10px;
+    /* background-color: aliceblue; */
+    /* width: 900px; */
+    /* margin: 10px; */
+    border-radius: 10px;
+    /* background-image: url("/Styles/Images/cheeseburger-and-fries.jpg"); */
 }
 
 #subOrder {
-	width: 100%;
+    width: 100%;
 }
+
 #orderPanel {
-	width: 60%;
-	height: 100%;
+    width: 50%;
+    height: 100%;
 }
+
 #cartPanel {
-	width: 50%;
-	height: 100%;
+    width: 50%;
+    height: 100%;
+    padding-left: 30px;
 }
+
 #orderTotal {
-	width: 100%;
-	font-size: 1.1em;
-	font-weight: 600;
-	text-align:right;
-	padding-right:15px;
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: right;
+    padding-right: 15px;
+    font-size: large;
+    /* border-top: 2.5px solid white; */
+    padding-top: 5px;
+    /* border-bottom-style: double; */
+    /* border-bottom-width: 7.5px; */
+    /* border-bottom: 7.5px double white; */
+    color: white;
 }
+
 #buttons {
-	float: right;
+    float: right;
 }
+
 .subFieldSet {
-	padding: 5px;
-	margin: 5px;
+    padding: 5px;
+    margin: 5px;
 }
+
 fieldset {
-	background-color: antiquewhite;
-	border-radius: 5px;
-	border-style:groove;
+    /* background-color: antiquewhite; */
+    border-radius: 5px 15px;
+    border-style: solid;
+    border: none;
+    border-left: 5px solid white;
 }
-#sizeFieldSet{
-  padding-top:0px;
+
+#sizeFieldSet {
+    padding-top: 0px;
 }
+
 #subTotalPanel {
-	font-size: 1.1em;
-	text-align: center;
-	font-weight:600;
+    font-size: large;
+    /* text-align: center; */
+    font-weight: 600;
 }
-th{
-  text-align:left;
+
+#subTotalPanel::before {
+    content: "▶ ";
+    color: white;
 }
+}
+
+th {
+    text-align: left;
+}
+
 label {
-	padding-left: 5px;
-	padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 10px;
+    cursor: pointer;
 }
+
 #orderSummary, #orderTable, #orderPage, #orderControls, #cart {
-	width: 100%;
+    width: 100%;
+    padding-left: 30px;
+    padding-top: 30px;
 }
-#orderTable td,th{
-  padding:1px 5px 1px 5px;
+
+#orderTable td,th {
+    padding: 1px 5px 1px 5px;
+    /* text-align: center; */
 }
-#orderControls{
-  text-align: center;
+
+#orderControls {
+    text-align: center;
 }
+
 input[type=radio] {
-	vertical-align: middle;
+    vertical-align: middle;
 }
+
 input[type=checkbox] {
-	vertical-align: middle;
+    vertical-align: middle;
 }
+
 legend {
-	padding: 2px 5px 2px 5px;
-	background-color: black;
-	color: aliceblue;
-	border-radius: 5px;
-	font-variant:small-caps;
+    padding: 2px 5px 2px 5px;
+    background-color: transparent;
+    color: white;
+    border-radius: 5px;
+    /* font-variant:small-caps; */
+    font-size: larger;
 }
+
 button {
-	border-radius: 5px;
-	width: 100px;
-	margin-left: 10px;
-	margin-right: 10px;
+    border-radius: 1em;
+    width: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 150px;
+    border: solid 2.5px white;
+    background: rgba(127,0,0,0.33);
+    font-size: larger;
+    color: white;
+    font-family: inherit; */
+    font-weight: bold;
+    font-weight: bold;
+    height: 2em;
 }
-#thankYouPage{
-  background-color:white;
-  margin:0 auto;
-  width:200px;
-  border-color:black;
-  border-radius:10px;
-  padding:30px;
-  text-align:center;
+
+#thankYouPage {
+    /* background-color:white; */
+    margin: 0 auto;
+    /* width:200px; */
+    border-color: black;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    /* vertical-align: middle; */
+    padding-top: 90px;
 }
-#again{
-  margin-top:20px;
+
+#again {
+    margin-top: 20px;
 }
 
 /*Template Banner*/
 #banner {
-	background-color: bisque;
-	border-bottom: 3px #997799;
-	padding: 10px;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+    /* border-bottom: 3px #997799; */
+    padding: 10px;
+    /* border-top-left-radius: 10px; */
+    /* border-top-right-radius: 10px; */
+    position: fixed;
+    width: 100%;
+    background: linear-gradient(rgba(127,0,0,0.67) 0%, rgba(127,0,0,0.67) 90%, rgba(0,0,0,0) 100%);
+    font-style: oblique;
+    top: 0;
+    left: 0;
+    right: 0;
 }
+
 #bannertext {
-	font-size: .8em;
-	float: left;
-	padding-left: 15px;
+    font-size: medium;
+    float: left;
+    padding-left: 15px;
 }
+
 #bannerimage img {
-	padding-top: 4px;
-	vertical-align: middle;
-	float: left;
-	height: 45px;
+    padding-top: 4px;
+    vertical-align: middle;
+    float: left;
+    height: 45px;
+    cursor: pointer;
 }
+
 .logotext {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-weight: 400;
-	font-style: italic;
+    font-family: Impact, Impact5, Charcoal6, sans-serif;
+    font-weight: lighter;
+    /* font-style: oblique; */
 }
+
 /*Template Content Area Styles*/
 #contentblock {
-	font-size: .70em;
-	padding: 10px;
-	padding-bottom: 2em;
-	background: linear-gradient(bisque,#997799);
+    font-size: .70em;
+    /* padding: 10px; */
+    padding-bottom: 2em;
+    /* background: transparent; */
+    margin-top: 75px;
+    /* background-color: #300; */
+    /* color: gold; */
+    /* align-self: center; */
 }
+
 /*Template Content Area Styles*/
 #codeblock {
-	margin: 10px;
-	font-size: .70em;
-	padding-bottom: 2em;
-	display: none;
+    /* margin: 10px; */
+    font-size: .70em;
+    padding: 0;
+    display: none;
+    width: 100%;
 }
+
 /*Template Footer*/
 #footer {
-	background: #997799;
-	padding: 10px;
-	font-size: .6em;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+    /* background: maroon; */
+    padding: 10px;
+    font-size: .6em;
+    /* border-bottom-left-radius: 10px; */
+    /* border-bottom-right-radius: 10px; */
+    background: linear-gradient(to top,rgba(127,0,0,0.67) 0%, rgba(127,0,0,0.67) 90%, rgba(0,0,0,0) 100%);
+    position: fixed;
+    bottom: 0;
+    /* width: 100%; */
+    height: 10px;
+    padding-bottom: 10px;
+    right: 0px;
+    left: 0px;
+    /* border-right-width: 20px; */
+    /* width: 100%; */
 }
+
 #footertext {
-	font-size: .6em;
+    font-size: .6em;
 }
+
 #footer a:link {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
+    /* color: gold; */
+    font-weight: bold;
+    text-decoration: none;
 }
+
 #footer a:visited {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
+    /* color: gold; */
+    font-weight: bold;
+    text-decoration: none;
 }
+
 #footer a:active {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
+    color: #336699;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 #footer a:hover {
-	color: #000000;
-	font-weight: bold;
+    color: white;
+    font-weight: bold;
 }
+
 /* Utility Styles */
 .clear {
-	/*An empty "clear: both" style div at the end of a section */
-/*with floating columns is is useful for at the*/
-/*end of a section with floating columns. */
-clear: both;
+    /*An empty "clear: both" style div at the end of a section */
+    /*with floating columns is is useful for at the*/
+    /*end of a section with floating columns. */
+    clear: both;
 }
+
 /*General Styles*/
 #content {
-	margin-left: 30px;
-	font-size: .70em;
-	padding-bottom: 2em;
+    margin-left: 30px;
+    font-size: .70em;
+    padding-bottom: 2em;
 }
+
 a:link {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
+    color: #336699;
+    font-weight: bold;
+    text-decoration: none;
+    /* border: 2.5px solid white; */
 }
+
 a:visited {
-	color: #6699cc;
-	font-weight: bold;
-	text-decoration: none;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 a:active {
-	color: #336699;
-	font-weight: bold;
-	text-decoration: none;
+    color: #336699;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 a:hover {
-	color: #cc3300;
-	font-weight: bold;
-	text-decoration: underline;
+    color: #cc3300;
+    font-weight: bold;
+    text-decoration: underline;
 }
+
 P {
-	color: #000000;
-	margin-top: 0px;
-	margin-bottom: 12px;
-	margin-left: 5px;
-	font-family: Verdana;
+    color: #000000;
+    margin-top: 0px;
+    margin-bottom: 12px;
+    margin-left: 5px;
+    font-family: Verdana;
 }
+
 pre {
-	background-color: #e5e5cc;
-	padding: 5px;
-	font-family: APL385 Unicode;
-	font-size: x-small;
-	margin-top: -5px;
-	border: 1px #f0f0e0 solid;
+    background-color: #300;
+    padding: 100px;
+    font-family: APL385 Unicode;
+    font-size: small;
+    padding-top: 100px;
+    /* border: 1px #f0f0e0 solid; */
+    font-weight: normal;
+    /* bottom: 20px; */
 }
+
 code {
-	font-family: APL385 Unicode;
+    font-family: APL385 Unicode;
 }
+
 .apl {
-	font-family: APL385 Unicode;
+    font-family: APL385 Unicode;
 }
+
 td {
-	color: #000000;
-	font-family: Verdana;
-	vertical-align: top;
+    /* color: #000000; */
+    /* font-family: Verdana; */
+    /* vertical-align: top; */
+    /* width: 1000px; */
 }
+
 h2 {
-	font-size: 1.5em;
-	font-weight: bold;
-	margin-top: 25px;
-	margin-bottom: 10px;
-	border-top: 0px solid #003366;
-	margin-left: 0px;
-	color: #003366;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-top: 0px solid #003366;
+    margin-left: 0px;
+    color: #003366;
 }
+
 h3 {
-	font-size: 1.1em;
-	color: #000000;
-	margin-left: 0px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    font-size: large;
+    color: white;
+    margin-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* text-align: center; */
+    /* align-self: center; */
 }
+
 ul {
-	margin-top: 10px;
-	margin-left: 20px;
+    margin-top: 10px;
+    margin-left: 20px;
 }
+
 ol {
-	margin-top: 10px;
-	margin-left: 20px;
+    margin-top: 10px;
+    margin-left: 20px;
 }
+
 li {
-	margin-top: 10px;
-	color: #000000;
-	font-size: 100%;
+    margin-top: 10px;
+    color: #000000;
+    font-size: 100%;
 }
+
 font.value {
-	color: darkblue;
-	font-weight: bold;
+    color: darkblue;
+    font-weight: bold;
 }
+
 font.key {
-	color: darkgreen;
-	font-weight: bold;
+    color: darkgreen;
+    font-weight: bold;
 }
+
 font.error {
-	color: darkred;
-	font-weight: bold;
+    color: darkred;
+    font-weight: bold;
 }
+
 heading1 {
-	color: #ffffff;
-	font-family: Tahoma;
-	font-size: 26px;
-	font-weight: normal;
-	background-color: #003366;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	margin-left: -30px;
-	padding-top: 10px;
-	padding-bottom: 3px;
-	padding-left: 15px;
-	width: 105%;
+    color: #ffffff;
+    font-family: Tahoma;
+    font-size: 26px;
+    font-weight: normal;
+    background-color: #003366;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: -30px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    padding-left: 15px;
+    width: 105%;
 }
+
 .button {
-	background-color: #dcdcdc;
-	font-family: Verdana;
-	font-size: 1em;
-	border-top: #cccccc 1px solid;
-	border-bottom: #666666 1px solid;
-	border-left: #cccccc 1px solid;
-	border-right: #666666 1px solid;
+    background-color: #dcdcdc;
+    font-family: Verdana;
+    font-size: 1em;
+    border-top: #cccccc 1px solid;
+    border-bottom: #666666 1px solid;
+    border-left: #cccccc 1px solid;
+    border-right: #666666 1px solid;
 }
+
 .frmheader {
-	color: #000000;
-	background: #dcdcdc;
-	font-family: Verdana;
-	font-size: .7em;
-	font-weight: normal;
-	border-bottom: 1px solid #dcdcdc;
-	padding-top: 2px;
-	padding-bottom: 2px;
+    color: #000000;
+    background: #dcdcdc;
+    font-family: Verdana;
+    font-size: .7em;
+    font-weight: normal;
+    border-bottom: 1px solid #dcdcdc;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
+
 .frmtext {
-	font-family: Verdana;
-	font-size: .7em;
-	margin-top: 8px;
-	margin-bottom: 0px;
-	margin-left: 32px;
+    font-family: Verdana;
+    font-size: .7em;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    margin-left: 32px;
 }
+
 .frmInput {
-	font-family: Verdana;
-	font-size: 1em;
+    font-family: Verdana;
+    font-size: 1em;
 }
+
 .intro {
-	margin-left: -15px;
+    margin-left: -15px;
 }
+
 .leftalign {
-	float: left;
+    float: left;
 }
+
 .rightalign {
-	float: right;
+    float: right;
 }
+
 .exampletable td {
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
+
 .rjust {
-	text-align: right;
+    text-align: right;
 }
+
 .ljust {
-	text-align: left;
+    text-align: left;
 }
+
 .cjust {
-	text-align: center;
+    text-align: center;
 }
+
 .centered {
-	margin-left: auto;
-	margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button:hover {
+    background-color: white;
+    color: maroon;
+    /* border-color: gold; */
+}
+
+input, button {
+    cursor: pointer;
+    transition: 0.25s;
+    /* font-family: inherit; */
+    /* font-weight: bold; */
+}
+
+#orderTable th {
+    color: white;
+    font-size: medium;
+}
+
+#orderTable tr td:first-child {
+    text-align: right;
+    padding-right: 10px;
+}
+
+#thxtbl {
+    /* width: 400px; */
+    margin: 0 auto;
+}
+
+#thx {
+    font-size: large;
+    color: white;
+    /* width: 400px; */
+}
+
+#yournum {
+    font-size: larger;
+}
+
+[disabled] {
+    cursor: not-allowed;
+}
+
+.itemthing {
+    width: 170px;
+    transition: 0.5s;
+}
+
+body {
+    background-color:black;
+}
+body::after {
+    content: "";
+    background-color: black;
+    background-image: url("/Styles/Images/cheeseburger-and-fries.jpg");
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
 }
