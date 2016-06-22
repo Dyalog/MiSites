@@ -50,14 +50,11 @@ body {
 }
 
 #orderTotal {
-    width: 100%;
-    font-size: 1.1em;
-    font-weight: 600;
-    text-align: right;
-    padding-right: 15px;
+    /* width: 100%; */
+    text-align: center;
     font-size: large;
     /* border-top: 2.5px solid white; */
-    padding-top: 5px;
+    padding-left: 250px;
     /* border-bottom-style: double; */
     /* border-bottom-width: 7.5px; */
     /* border-bottom: 7.5px double white; */
@@ -87,14 +84,14 @@ fieldset {
 
 #subTotalPanel {
     font-size: large;
-    /* text-align: center; */
-    font-weight: 600;
+    /* padding-left: 130px; */
 }
 
 #subTotalPanel::before {
     content: "▶ ";
     color: white;
-}
+    font-size: xx-large;
+    vertical-align: middle;
 }
 
 th {
@@ -107,10 +104,15 @@ label {
     cursor: pointer;
 }
 
-#orderSummary, #orderTable, #orderPage, #orderControls, #cart {
+#orderSummary, #orderTable,#orderPage, #orderControls, #cart {
     width: 100%;
     padding-left: 30px;
     padding-top: 30px;
+}
+
+#orderSummary {
+    padding-left: 10px;
+    width: 80%;
 }
 
 #orderTable td,th {
@@ -149,10 +151,11 @@ button {
     background: rgba(127,0,0,0.33);
     font-size: larger;
     color: white;
-    font-family: inherit; */
-    font-weight: bold;
+    font-family: inherit;
+    */ font-weight: bold;
     font-weight: bold;
     height: 2em;
+    transition: 0.5s;
 }
 
 #thankYouPage {
@@ -184,6 +187,7 @@ button {
     top: 0;
     left: 0;
     right: 0;
+    z-index: 2;
 }
 
 #bannertext {
@@ -229,48 +233,20 @@ button {
 
 /*Template Footer*/
 #footer {
-    /* background: maroon; */
     padding: 10px;
-    font-size: .6em;
-    /* border-bottom-left-radius: 10px; */
-    /* border-bottom-right-radius: 10px; */
-    background: linear-gradient(to top,rgba(127,0,0,0.67) 0%, rgba(127,0,0,0.67) 90%, rgba(0,0,0,0) 100%);
+    font-size: small;
+    background: linear-gradient(to top,rgba(127,0,0,0.67) 0%, rgba(127,0,0,0.67) 75%, rgba(0,0,0,0) 100%);
     position: fixed;
     bottom: 0;
-    /* width: 100%; */
-    height: 10px;
+    height: 12px;
     padding-bottom: 10px;
     right: 0px;
     left: 0px;
-    /* border-right-width: 20px; */
-    /* width: 100%; */
-}
+    }
 
-#footertext {
-    font-size: .6em;
-}
-
-#footer a:link {
-    /* color: gold; */
-    font-weight: bold;
+#footer a:link , #footer a:visited, #footer a:active, #footer a:hover {
     text-decoration: none;
-}
-
-#footer a:visited {
-    /* color: gold; */
-    font-weight: bold;
-    text-decoration: none;
-}
-
-#footer a:active {
-    color: #336699;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-#footer a:hover {
     color: white;
-    font-weight: bold;
 }
 
 /* Utility Styles */
@@ -489,11 +465,17 @@ button:hover {
     /* border-color: gold; */
 }
 
+button[disabled] {
+    color: #300;
+}
+
+button[disabled]:hover {
+    background: rgba(127,0,0,0.33);
+    color: #300;
+}
+
 input, button {
     cursor: pointer;
-    transition: 0.25s;
-    /* font-family: inherit; */
-    /* font-weight: bold; */
 }
 
 #orderTable th {
@@ -501,9 +483,13 @@ input, button {
     font-size: medium;
 }
 
-#orderTable tr td:first-child {
+#orderTable td:first-child, #orderTable th:first-child {
     text-align: right;
     padding-right: 10px;
+}
+
+#orderTable th:last-child {
+    text-align: left;
 }
 
 #thxtbl {
@@ -522,26 +508,57 @@ input, button {
 }
 
 [disabled] {
-    cursor: not-allowed;
+    cursor: default;
+    border-color:#300;
 }
 
 .itemthing {
     width: 170px;
-    transition: 0.5s;
 }
 
 body {
-    background-color:black;
+    background-color: black;
 }
+
 body::after {
     content: "";
-    background-color: black;
     background-image: url("/Styles/Images/cheeseburger-and-fries.jpg");
-    opacity: 0.5;
+    opacity: 0.33;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
     z-index: -1;
+}
+
+#single::after, #double::after, #triple::after, #bigburger::after {
+    position: absolute;
+    top: -500px;
+    right: 200px;
+    transition: 1s;
+    z-index: 1;
+}
+
+#single:hover::after, #double:hover::after, #triple:hover::after, #bigburger:hover::after {
+    top: 100px;
+    bottom: 0;
+    margin: auto;
+    z-index: 1;
+}
+
+#double::after {
+    content: url("Images/double.png");
+}
+
+#single::after {
+    content: url("Images/single.png");
+}
+
+#triple::after {
+    content: url("Images/triple.png");
+}
+
+#bigburger::after {
+    content: url("Images/bigburger.png");
 }

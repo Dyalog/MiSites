@@ -12,6 +12,9 @@
     ⍝ set the title display in the browser to the name of the application defined in Config/Server.xml
       Add _.title _Request.Server.Config.Name
      
+    ⍝ add tab/window icon
+      (Add _.link).Set'href="/Styles/Images/favicon.ico" rel="icon" type="image/x-icon"'
+     
     ⍝ add a link to our CSS stylesheet
       Add _.StyleSheet'/Styles/style.css'
      
@@ -20,7 +23,7 @@
      
 ⍝↓↓↓ This section implements the feature to toggle the display between the HTML page and the page's APL source code
     ⍝ wrap the content of the <body> element in a div
-      Body.Push _.div'id="contentblock"'
+      'contentblock'Body.Push _.div
      
     ⍝ add a hidden division to the body containing the APL source code
       (Add _.div(#.HTMLInput.APLToHTML ⎕SRC⊃⊃⎕CLASS ⎕THIS)).Set'id="codeblock" style="display: none;"'
@@ -36,7 +39,7 @@
       Body.Push #.Files.GetText _Request.Server.Config.Root,'Styles\banner.txt'
      
     ⍝ enclose the page content in a div with id="wrapper"
-      Body.Push _.div'id="wrapper"'
+      'wrapper'Body.Push _.div
      
 ⍝↓↓↓ your page must call the base class Wrap function
       ⎕BASE.Wrap

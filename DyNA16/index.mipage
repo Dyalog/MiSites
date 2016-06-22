@@ -14,10 +14,11 @@
      
       orderForm←New _.Form
      
+      (subOrder←'subOrder'New _.StackPanel).Horizontal←1
       (orderControls←'orderControls'New _.StackPanel).Horizontal←1
-      orderControls.style←'display:none'
+      ⍝orderControls.style←'display:none'
      
-      cartPanel←New _.StackPanel orderControls('orderSummary'New _.div)('orderTotal'New _.div)
+      cartPanel←New _.StackPanel subOrder('orderSummary'New _.div)('orderTotal'New _.div)orderControls
       (orderPage←'orderPage'Add _.StackPanel orderForm cartPanel).Horizontal←1
       orderPage.Items.id←'orderPanel' 'cartPanel'
      
@@ -45,13 +46,11 @@
       drinksPanel.Add 3 inputTable'drinks'∘('checkbox'makeItem)¨data.drinks
      
 ⍝ add a div with the subtotal and buttons to add the subtotal to the order or reset the panel
-     
-      (subOrder←'subOrder'orderItems.Add _.StackPanel).Horizontal←1
       'subTotalPanel'subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
-      ('buttons'subOrder.Add _.div).Add(('add' 'disabled')'reset'){⍺ New _.Button ⍵}¨'Add to order' 'Reset'
+      subOrder.Add¨(('add' 'disabled')'reset'){⍺ New _.Button ⍵}¨'Add to order' 'Reset'
      
 ⍝ add order buttons and total display area
-      orderControls.Add(('order' 'disabled')'cancel'){⍺ New _.Button ⍵}¨'Place Order' 'Cancel Order'
+      orderControls.Add(('order' 'disabled')'cancel'){⍺ New _.Button ⍵}¨'Place order' 'Cancel order'
      
       thankYou←'thankYouPage'Add _.div''
       thankYou.style←'display:none;' ⍝ Invisible until further notice
@@ -90,6 +89,7 @@
      
       :Case 'reset'
           r,←Execute'input'_JSS.RemoveAttr'checked'
+          r,←Execute'#add'_JSS.Prop'disabled'_true
           SubTotal←0
      
       :Case 'order'

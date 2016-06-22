@@ -1,5 +1,8 @@
 <div id="footer">
-<div class="leftalign footertext">Powered by MiServer 3.0 and Dyalog APL</div>
-<div class="rightalign footertext"><a href="http://www.dyalog.com">Dyalog, Ltd.</a></div>
+<div class="rightalign footertext">
+Powered by
+<a href="http://miserver.dyalog.com" target="_blank">MiServer 3.0
+</a> and <a 
+href="http://www.dyalog.com" target="_blank">Dyalog APL</a></div>
 <div class="clear"></div>
 </div>
