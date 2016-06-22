@@ -8,6 +8,11 @@
       },
       {
         "cost": 0,
+        "id": "sesame",
+        "name": "Sesame"
+      },
+      {
+        "cost": 0,
         "id": "wheat",
         "name": "Wheat"
       },
