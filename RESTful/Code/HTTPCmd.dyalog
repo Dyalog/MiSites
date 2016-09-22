@@ -1,4 +1,4 @@
-﻿ r←{certs}(cmd HTTPCmd)args;U;LDRC;fromutf8;h2d;getchunklen;eis;getHeader;addHeader;makeHeaders;fmtHeaders;url;parms;hdrs;b;p;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;header;datalen;data;done;wr;len;cmd;urlparms;split;NL
+﻿ r←{certs}(cmd HTTPCmd)args;U;LDRC;fromutf8;h2d;getchunklen;eis;getHeader;addHeader;makeHeaders;fmtHeaders;url;parms;hdrs;b;p;secure;port;host;page;x509;flags;priority;pars;auth;req;err;chunked;chunk;buffer;chunklength;header;datalen;data;done;wr;len;cmd;urlparms;split;NL;⎕ML;⎕IO
 ⍝ issue an HTTP command
 ⍝ certs - optional PublicCert PrivateKey SSLValidation
 ⍝ args  - [1] URL in format [HTTP[S]://][user:pass@]url[:port][/page]
@@ -7,6 +7,7 @@
 ⍝ Makes secure connection if left arg provided or URL begins with https:
 
 ⍝ Result: (return code) (HTTP headers) (HTTP body) [PeerCert if secure]
+ (⎕ML ⎕IO)←1 1
  (U LDRC)←#.(HTTPUtils DRC) ⍝ Uses utils from here
  fromutf8←{0::(⎕AV,'?')[⎕AVU⍳⍵] ⋄ 'UTF-8'⎕UCS ⍵} ⍝ Turn raw UTF-8 input into text
  h2d←{⎕IO←0 ⋄ 16⊥'0123456789abcdef'⍳U.lc ⍵} ⍝ hex to decimal
@@ -28,9 +29,9 @@
  :If 326=⎕DR parms ⍝ if parms are a namespace, format them
      :If 9=⎕NC'parms'
          :If (⊂cmd)∊'POST' 'PUT'
-             parms←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ ⊃,/U.URLEncode ⍵{⍵(,⍕⍺⍎⍵)}¨t}parms
+             parms←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ U.URLEncode↑⍵{⍵(,⍕⍺⍎⍵)}¨t}parms
          :Else
-             urlparms←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ {0∊⍴⍵:'' ⋄ '?',⍵}⊃,/U.URLEncode ⍵{⍵(,⍕⍺⍎⍵)}¨t}parms
+             urlparms←{0∊⍴t←⍵.⎕NL ¯2:'' ⋄ {0∊⍴⍵:'' ⋄ '?',⍵}U.URLEncode↑⍵{⍵(,⍕⍺⍎⍵)}¨t}parms
              parms←''
          :EndIf
      :Else

@@ -21,12 +21,12 @@
     ∇
 
 
-    ∇ r←AddCustomer;name
+    ∇ r←AddCustomer;custname
       :Access public
       r←⍬
-      :If ~0∊⍴name←Get'name' ⍝ was a name supplied?
+      :If ~0∊⍴name←Get'custname' ⍝ was a name supplied?
       :AndIf 0∊⍴_URI         ⍝ make sure no addition URI information
-          r←'custid' 'custname'Annotate #.bl.AddCustomer name
+          r←'custid' 'custname'Annotate #.bl.AddCustomer custname
       :Else
           SetStatus 400 'Invalid format'
       :EndIf
@@ -53,11 +53,11 @@
       :EndSelect
     ∇
 
-    ∇ r←UpdateCustomer;name
-      r←⍬
-      :If ~0∊⍴name←Get'name' ⍝ was a name supplied?
+    ∇ r←UpdateCustomer;custname
+      r←⍬      
+      :If ~0∊⍴custname←Get'custname' ⍝ was a name supplied?
       :AndIf 1=⍴_URI         ⍝ make sure id was passed in URL
-          r←'custid' 'custname'Annotate(1⊃_URI)#.bl.UpdateCustomer name
+          r←'custid' 'custname'Annotate(1⊃_URI)#.bl.UpdateCustomer custname
       :EndIf
     ∇
 
@@ -83,11 +83,11 @@
   ⍝
   ⍝  POST
   ⍝   /customer/                        create a new customer
-  ⍝   form variable: name
+  ⍝   form variable: custname
   ⍝
   ⍝  PUT
   ⍝   /customer/custid                  update customer information for a specific customer
-  ⍝   form variable: name
+  ⍝   form variable: custname
   ⍝
   ⍝  DELETE
   ⍝   /customer/custid                  delete a specific customer

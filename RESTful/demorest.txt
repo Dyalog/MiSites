@@ -26,8 +26,8 @@ fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200'           ⍝ get cus
 fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/'    ⍝ all orders for customer 1200
 fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/9/'  ⍝ Edit me! (insert order number) order details
 ('get' HTTPCmd) 'localhost:8080/customer/0'   ⍝ non-existent customer (note 404 HTTP status code)
-('post' HTTPCmd) 'localhost:8080/customer/' ('name' 'Nick') ⍝ add a new customer
-('put' HTTPCmd) 'localhost:8080/customer/400/' ('name' 'Dan') ⍝ update a customer
+('post' HTTPCmd) 'localhost:8080/customer/' ('custname' 'Nick') ⍝ add a new customer
+('put' HTTPCmd) 'localhost:8080/customer/400/' ('custname' 'Dan') ⍝ update a customer
 #.bl.Show
 ('delete' HTTPCmd) 'localhost:8080/customer/1200/'  ⍝ delete customer 200
 ↑(fromJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/').(custid custname)  ⍝ verify cust 200 is gone
