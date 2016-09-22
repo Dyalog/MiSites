@@ -47,10 +47,10 @@
      
 ⍝ add a div with the subtotal and buttons to add the subtotal to the order or reset the panel
       'subTotalPanel'subOrder.Add'Subtotal: '('subtotal'New(_.span(fmtCost SubTotal)))
-      subOrder.Add¨(('add' 'disabled')'reset'){⍺ New _.Button ⍵}¨'Add to order' 'Reset'
+      subOrder.Add'add' 'reset'{⍺'disabled'New _.Button ⍵}¨'Add to order' 'Reset'
      
 ⍝ add order buttons and total display area
-      orderControls.Add(('order' 'disabled')'cancel'){⍺ New _.Button ⍵}¨'Place order' 'Cancel order'
+      orderControls.Add'order' 'cancel'{⍺'disabled'New _.Button ⍵}¨'Place order' 'Cancel order'
      
       thankYou←'thankYouPage'Add _.div''
       thankYou.style←'display:none;' ⍝ Invisible until further notice
@@ -83,13 +83,13 @@
           r,←Execute'input'_JSS.RemoveAttr'checked'
           r,←'#orderTotal'Replace'Order Total: ',fmtCost+/orderTable[;3]
           r,←Execute'#orderControls'#._JSS.Show''
-          r,←Execute'#order'_JSS.Prop'disabled'_false
-          r,←Execute'#add'_JSS.Prop'disabled'_true
+          r,←Execute'#order,#cancel'_JSS.Prop'disabled'_false
+          r,←Execute'#add,#reset'_JSS.Prop'disabled'_true
           SubTotal←0
      
       :Case 'reset'
           r,←Execute'input'_JSS.RemoveAttr'checked'
-          r,←Execute'#add'_JSS.Prop'disabled'_true
+          r,←Execute'#add,#reset'_JSS.Prop'disabled'_true
           SubTotal←0
      
       :Case 'order'
@@ -112,7 +112,7 @@
               subOrder⍪←bun.(id name cost)
           :EndIf
           SubTotal←+/subOrder[;3]
-          r,←Execute'#add'_JSS.Prop'disabled'_false
+          r,←Execute'#add,#reset'_JSS.Prop'disabled'_false
       :EndSelect
       r,←'#subtotal'Replace fmtCost SubTotal
     ∇
