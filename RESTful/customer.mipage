@@ -24,7 +24,7 @@
     ∇ r←AddCustomer;custname
       :Access public
       r←⍬
-      :If ~0∊⍴name←Get'custname' ⍝ was a name supplied?
+      :If ~0∊⍴custname←Get'custname' ⍝ was a name supplied?
       :AndIf 0∊⍴_URI         ⍝ make sure no addition URI information
           r←'custid' 'custname'Annotate #.bl.AddCustomer custname
       :Else
