@@ -3,7 +3,7 @@
 
     ∇ Compose;u;l;r;d;board;keys;score;name;new
       :Access Public
-      #.Boot.ms._Renderer.(Coord Size)←'Pixel'(1300 1300) ⍝ Resize window
+      #.Boot.ms._Renderer.(Coord Size)←'Pixel'(800 800) ⍝ Resize window
      
       ⎕RL←⍬ ⍝ initialize RNG
      
@@ -62,9 +62,9 @@
     ∇
 
     ∇ table←Disp board;empties ⍝ Create a display form of the board
-      empties←Empties board
-      (empties/∊board)←' '    ⍝ replace with spaces so they do not display
-      table←'#world'New _.Table board
+⍝      empties←Empties board
+⍝      (empties/∊board)←' '    ⍝ replace with spaces so they do not display
+      table←'#world'New _.Table (' '@(0∘=) board)
     ∇
 
       Pack←{ ⍝ Find the new row state caused by packing to the left
