@@ -1,6 +1,21 @@
-﻿body { 
-color: black; 
-background-color:aliceblue;
-font-family: Verdana; 
-margin-top: 0px;
+﻿body {
+	color: black;
+	background-color: aliceblue;
+	font-family: Verdana;
+	margin-top: 0px;
+}
+.error {
+	color: red;
+}
+#griddiv {
+	display: none;
+	margin: 0 auto;
+	width: 1000px;
+}
+#chartdiv {
+	margin: 0 auto;
+	width: 1000px;
+}
+#displaycontrol {
+	float: right;
 }
