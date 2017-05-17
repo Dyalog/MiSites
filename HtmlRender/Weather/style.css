@@ -2,13 +2,13 @@ body {
 	color: black;
 	background-color: aliceblue;
 	font-family: Verdana;
-	margin-top: 0px;
+	margin: 0px 2em;
 }
 .error {
 	color: red;
 }
 #griddiv, #chartdiv {
-	margin: 0 auto;
+	margin: 1em auto;
 	width: 1000px;
 	left: -150%;
 	position: absolute;
