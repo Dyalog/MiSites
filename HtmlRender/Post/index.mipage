@@ -5,7 +5,8 @@
 
     ∇ Compose;fm
       :Access public
-      Add _.StyleSheet'style.css'
+      Add _.style'body {color: black; background-color: aliceblue; font-family: Verdana;}'
+     
       Add _.h2'Hi ',fn,' ',ln
       fm←Add _.Form
       fm.Add _.InputGrid('First Name' 'Last Name')((_.EditField'fn')(_.EditField'ln'))
