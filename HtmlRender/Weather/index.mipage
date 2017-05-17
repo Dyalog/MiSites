@@ -7,20 +7,21 @@
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
       Add _.h2'NOAA Weather Forecast'
-      
+     
       (Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
-      
+     
       msgSpan←'msgspan'Add _.span
-      
-      dc←'displaycontrol'Add _.span
-      dc.Add'Display as: '
-      dc.Add _.RadioButtonGroup('Graph' 'Grid')1 'left' 1
-      Add _.Handler':radio' 'click' 0 '' ''('#chartdiv,#griddiv'_JSS.Toggle'')
-      
+     
+      ⍝dc←'displaycontrol'Add _.span
+      'displaycontrol'Add _.span'Display as: '
+      'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' '' 'Graph' 'right'
+      'dispgrid' 'name="dc"'Add _.Input'radio' '' 'Grid' 'right'
+      ⍝dc.Add _.RadioButtonGroup('Graph' 'Grid')1 'left' 1
+      ⍝Add _.Handler':radio' 'click' 0 '' ''('#chartdiv,#griddiv'_JSS.Toggle'')
+     
       (chartDiv gridDiv)←'chartdiv' 'griddiv'Add¨_.div
-      
+     
       (Msg WeatherData)←GetNoaaData ZipCode
-      
       msgSpan.Add(0∊⍴WeatherData)MakeInfo Msg
       chartDiv.Add ZipCode MakeChart WeatherData
       gridDiv.Add MakeGrid WeatherData

@@ -1,4 +1,4 @@
-﻿body {
+body {
 	color: black;
 	background-color: aliceblue;
 	font-family: Verdana;
@@ -7,15 +7,37 @@
 .error {
 	color: red;
 }
-#griddiv {
-	display: none;
+#griddiv, #chartdiv {
 	margin: 0 auto;
 	width: 1000px;
+	left: -150%;
+	position: absolute;
+	transition: 1s;
 }
-#chartdiv {
-	margin: 0 auto;
-	width: 1000px;
+#dispgrid:checked ~ #griddiv, #dispgraph:checked ~ #chartdiv {
+	left: calc(50% - 500px);
 }
-#displaycontrol {
-	float: right;
+#displaycontrol, #displaycontrol~label, #displaycontrol~input {
+   position: absolute;
+}
+#displaycontrol, #displaycontrol~input {
+   right: 2em;
+}
+#displaycontrol~label {
+   right: 3em;
+}
+#displaycontrol{
+	top: 1em;
+}
+#dispgraph {
+	top: 3em;
+}	
+label[for="dispgraph"]{
+	top: 2.5em;
+}	
+#dispgrid {
+	top: 5em;
+}	
+label[for="dispgrid"]{
+	top: 4.2em;
 }
