@@ -1,0 +1,16 @@
+﻿:Class SimplePost : #.MiPage
+
+    :Field Public fn←''
+    :Field Public ln←''
+
+    ∇ Compose;fm
+      :Access public
+      Add _.StyleSheet'style.css'
+      Add _.h2'Hi ',fn,' ',ln
+      fm←Add _.Form
+      fm.Add _.InputGrid('First Name' 'Last Name')((_.EditField'fn')(_.EditField'ln'))
+      fm.Add _.br
+      fm.Add _.SubmitButton
+    ∇
+
+:EndClass

@@ -1,0 +1,12 @@
+﻿:Class index : MiPage
+
+    ∇ Compose;captions;links
+      :Access public
+      Add _.StyleSheet'style.css'
+      Add _.h2'HtmlRenderer Demos'
+      captions←'Simple POST form' 'Simple Callback' 'Weather Graph'
+      links←'SimplePost' 'SimpleCallback' 'WeatherGraph'
+      Add _.Ul captions links
+    ∇
+
+:EndClass

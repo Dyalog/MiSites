@@ -1,0 +1,19 @@
+﻿:Class SimpleCallback : #.MiPage
+
+    ∇ Compose;fm
+      :Access public
+      Add _.StyleSheet'style.css'
+      Add _.h2'Hello '('who' New _.span'')
+      :With Add _.Form
+          Add _.InputGrid('First Name' 'Last Name')((_.EditField'fn')(_.EditField'ln'))
+          Add _.br
+          (Add _.Button'Submit').On'click' 'myCallback'
+      :EndWith
+    ∇
+
+    ∇ r←myCallback
+      :Access public
+      r←'#who'Replace #.Strings.deb ⍕Get'fn ln'
+    ∇
+
+:EndClass

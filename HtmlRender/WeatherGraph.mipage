@@ -1,0 +1,68 @@
+﻿:Class WeatherGraph : #.MiPage
+
+    ∇ Compose;chartDiv;gridDiv;msgDiv
+      :Access public
+      Add _.StyleSheet'style.css'
+      Add _.h2'Weather Forecast'
+      ('zip'Add _.Input'text' '' 'Zip Code: ').On'change' 'GetWeather'
+      (msgDiv chartDiv gridDiv)←'msgdiv' 'chartdiv' 'griddiv'Add¨_.div
+⍝      chartDiv.style←'display:none'
+      Add _.Script('tempData'_JSS.JSData 1 2⍴'time' 'temp')
+⍝      Add _.Script('dewpData'_JSS.JSData 1 2⍴'time' 'dewp')
+⍝      Add _.Script('relhData'_JSS.JSData 1 2⍴'time' 'relh')
+     
+      chart←'chart'chartDiv.Add _.ejChart
+      chart.Options←ScriptFollows
+⍝  { primaryXAxis: { title: { text: "Time" }},
+⍝    primaryYAxis: { range: { min: 30, max: 100, interval: 5 },
+⍝                    title: { text: "Temperature in Fahrenheit" },
+⍝                    labelFormat: "{value}F" },
+⍝             commonSeriesOptions: { type: "spline", enableAnimation: true,
+⍝                marker: { shape: "circle",
+⍝                                         size: { height: 10, width: 10 },
+⍝                          visible: true },
+⍝                           tooltip: {visible: true, format: "#point.x# <br/> #series.name# : #point.y#"}},
+⍝             series: [
+⍝    { dataSource: tempData, xName: "time", yName: "temp", name: "Temperature"    },
+⍝⍝    { dataSource: dewpData, xName: "time", yName: "dewp", name: "Dew Point"    },
+⍝⍝    { dataSource: relhData, xName: "time", yName: "relh", name: "Relative Humidity"    }
+⍝    ],
+⍝             load:"loadTheme",
+⍝             isResponsive: true,
+⍝    title:{text: 'NOAA 7-Day Forecase'},
+⍝    size: { height: "600" },
+⍝    legend: { visible: true }}
+    ∇
+
+    ∇ r←GetWeather;data
+      :Access public
+      data←GetNoaaData _value
+      ∘∘∘
+      r←Execute 4↓'tempData'_JSS.JSData'time' 'temp'⍪data[;1 2]
+⍝      r,←Execute'dewpData'_JSS.JSData'time' 'dewp'⍪data[;1 3]
+⍝      r,←Execute'relhData'_JSS.JSData'time' 'relh'⍪data[;1 4]
+      r,←chart.Redraw
+     ⍝ r,←Execute'#chartdiv'_JSS.Show''
+    ∇
+
+    ∇ r←GetNoaaData zip;url;params;req;data;times;temps;dew;hum
+      ⍝ Retrieve weather data for a zip code from the National Oceanographic and Atmospheric Administration
+      :Access public shared
+      r←0 4⍴0
+      url←'https://graphical.weather.gov/xml/sample_products/browser_interface/ndfdXMLclient.php'
+      params←'zipCodeList=',(⍕zip),'&product=time-series&temp=temp&rh=rh&dew=dew'
+      req←#.HttpCommand.Get url,'?',params
+      :If 0=req.rc
+          data←⎕XML req.Data
+          times←¯3↓¨#.Dates.TSFmt∘parseDate¨1↓3⌷[2]data(<kids)'time-layout'
+          temps←#.Strings.tonum¨3⌷[2]data(≤kids)'name' 'Temperature'
+          dew←#.Strings.tonum¨3⌷[2]data(≤kids)'name' 'Dew Point Temperature'
+          hum←#.Strings.tonum¨3⌷[2]data(≤kids)'name' 'Relative Humidity'
+          r←times,temps,dew,⍪hum
+      :EndIf
+    ∇
+
+    parseDate←{¯2↓⊃(//) ⎕VFI ⍵{⍵\⍵/⍺}⍵∊⎕D}
+    kids←{(⍺⍺{1↓⍵⌿⍨∧\1,1↓⍵[1;1]⍺⍺ ⍵[;1]})⍺↓⍨¯1+⍺{⍺[;1+⍳≢⍵]⍳⍉⍪⍵}⊆⍵}
+
+:EndClass
