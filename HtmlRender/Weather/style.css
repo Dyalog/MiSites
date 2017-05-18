@@ -1,8 +1,19 @@
+﻿html {
+	height: 100%;
+}
 body {
+	height: 100%;
+	padding: 0;
 	color: black;
 	background-color: aliceblue;
 	font-family: Verdana;
 	margin: 0px 2em;
+}
+#mapdiv {
+	height: 400px;
+	width: 400px;
+	float: left;
+	top: 150px;
 }
 .error {
 	color: red;
@@ -15,7 +26,7 @@ body {
 	transition: 1s;
 }
 #dispgrid:checked ~ #griddiv, #dispgraph:checked ~ #chartdiv {
-	left: calc(50% - 500px);
+	left: calc(50% - 250px);  /* 500px); */
 }
 #displaycontrol, #displaycontrol~label, #displaycontrol~input {
    position: absolute;
@@ -26,18 +37,18 @@ body {
 #displaycontrol~label {
    right: 3em;
 }
-#displaycontrol{
+#displaycontrol {
 	top: 1em;
 }
 #dispgraph {
 	top: 3em;
-}	
-label[for="dispgraph"]{
+}
+label[for=dispgraph] {
 	top: 2.5em;
-}	
+}
 #dispgrid {
 	top: 5em;
-}	
-label[for="dispgrid"]{
+}
+label[for=dispgrid] {
 	top: 4.2em;
 }

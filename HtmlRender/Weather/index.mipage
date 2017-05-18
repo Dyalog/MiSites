@@ -2,29 +2,29 @@
 
     :Field Public ZipCode←10001
 
-    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc
+    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv
       :Access public
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
       Add _.h2'NOAA Weather Forecast'
+      Add MapScripts ⍝ insert scripts to enable loading Google maps
      
       (Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
      
       msgSpan←'msgspan'Add _.span
      
-      ⍝dc←'displaycontrol'Add _.span
       'displaycontrol'Add _.span'Display as: '
       'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' '' 'Graph' 'right'
       'dispgrid' 'name="dc"'Add _.Input'radio' '' 'Grid' 'right'
-      ⍝dc.Add _.RadioButtonGroup('Graph' 'Grid')1 'left' 1
-      ⍝Add _.Handler':radio' 'click' 0 '' ''('#chartdiv,#griddiv'_JSS.Toggle'')
      
-      (chartDiv gridDiv)←'chartdiv' 'griddiv'Add¨_.div
+      (mapDiv chartDiv gridDiv)←'mapdiv' 'chartdiv' 'griddiv'Add¨_.div
      
       (Msg WeatherData)←GetNoaaData ZipCode
       msgSpan.Add(0∊⍴WeatherData)MakeInfo Msg
+      mapDiv.Add GetMap Msg
       chartDiv.Add ZipCode MakeChart WeatherData
       gridDiv.Add MakeGrid WeatherData
+     
     ∇
 
     ∇ r←Redraw;data;Msg;WeatherData
@@ -33,6 +33,7 @@
       r←'#msgspan'Replace(0∊⍴WeatherData)MakeInfo Msg
       r,←'#chartdiv'Replace ZipCode MakeChart WeatherData
       r,←'#griddiv'Replace MakeGrid WeatherData
+      r,←'#mapdiv'Replace GetMap Msg
     ∇
 
     ∇ r←error MakeInfo Msg
@@ -42,7 +43,7 @@
     ∇ grid←MakeGrid WeatherData;items;levels
       grid←''
       →0⍴⍨0∊⍴WeatherData
-      items←'Time' 'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'⍪WeatherData
+      items←'Time' 'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'⍪((⊂'')@(¯99999∘≡¨)WeatherData)
       levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ assign levels based on date
       grid←'grid'New _.ejTreeGrid items levels
       grid.width←1000
@@ -67,6 +68,24 @@
       'commonSeriesOptions.marker.(shape visible)'chart.Set'circle'_true
       'commonSeriesOptions.marker.size.(height width)'chart.Set 5 5
       'commonSeriesOptions.tooltip.(visible format)'chart.Set _true'#point.x# <br/> #series.name# : #point.y#'
+    ∇
+
+    ∇ r←GetMap msg;latlong
+      ⍝ embed a Google map for our zipcode
+      r←''
+      →0⍴⍨2≠≢latlong←#.Strings.tonum msg
+      r←New _.script'loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')'
+    ∇
+
+    ∇ r←MapScripts
+      r←(⊂'src' 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAgm3qwSRLxdc9GTO9xCyzCySu3_d7lRws')New _.script
+      r,←New _.script ScriptFollows
+    ⍝ var map;
+    ⍝ function loadMap(lat,long){
+    ⍝    map = new google.maps.Map(document.getElementById('mapdiv'),{
+    ⍝       center: {lat: lat, lng: long},
+    ⍝       zoom: 8 });
+    ⍝    }
     ∇
 
     ∇ r←GetNoaaData zip;url;params;req;data;times;temps;dew;hum;ind;length

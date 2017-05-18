@@ -4,8 +4,8 @@
       :Access public
       Add _.StyleSheet'style.css'
       Add _.h2'HtmlRenderer Demos'
-      captions←'Simple POST form' 'Simple Callback' 'Weather Graph' '2048 Game'
-      links←'SimplePost' 'SimpleCallback' 'WeatherGraph' 'The_2048_Game'
+      captions←'Simple POST form' 'Simple Callback' 'Weather Graph' '2048 Game' 'Map Test'
+      links←'SimplePost' 'SimpleCallback' 'WeatherGraph' 'The_2048_Game' 'MapTest'
       Add _.Ul captions links
     ∇
 
