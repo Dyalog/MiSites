@@ -8,7 +8,7 @@
       Add _.title'NOAA Weather Forecast'
       Add MapScripts ⍝ insert scripts to enable loading Google maps
       tb←'toolbar'Add _.header
-      (tb.Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
+      (tb.Add _.Input'text'ZipCode'Zip code: ').On'change' 'Redraw'
      
       'dispgrid' 'name="dc"'Add _.Input'radio' ''(New _.Icon'fa-table')'right'
       'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' ''(New _.Icon'fa-line-chart')'right'
