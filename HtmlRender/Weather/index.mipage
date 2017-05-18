@@ -3,7 +3,9 @@
     :Field Public ZipCode←10001
 
     ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status;tb
-      :Access public
+      :Access public 
+      #.Boot.ms._Renderer.(Coord Size)←'Pixel'(930 1080) ⍝ Resize window 
+
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
       Add MapScripts ⍝ insert scripts to enable loading Google maps
