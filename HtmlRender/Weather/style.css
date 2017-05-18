@@ -12,7 +12,7 @@ body {
 }
 #toolbar {
 	width: calc(100% - 2ex);
-	border-bottom: 1px solid Grey;
+	border-bottom: 1px solid silver;
 	padding: 1ex;
 	background: WhiteSmoke;
 }
@@ -29,7 +29,7 @@ body {
 	position: absolute;
 	bottom: 0;
 	background: WhiteSmoke;
-	border-top: 1px solid grey;
+	border-top: 1px solid silver;
 	width: 100%;
 	height: 3ex;
 	z-index: 1;
@@ -49,6 +49,7 @@ body {
 #dispgrid:checked ~ #griddiv, #dispgraph:checked ~ #chartdiv {
 	opacity: 1;
 	z-index: 1;
+	margin-top: -1px;
 }
 #displaycontrol, label[for="dispgrid"], label[for="dispgraph"] {
    position: relative;

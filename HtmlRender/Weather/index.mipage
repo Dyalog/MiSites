@@ -3,9 +3,9 @@
     :Field Public ZipCode←10001
 
     ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status;tb
-      :Access public 
-      #.Boot.ms._Renderer.(Coord Size)←'Pixel'(930 1080) ⍝ Resize window 
-
+      :Access public
+      #.Boot.ms._Renderer.(Coord Size)←'Prop'(85 55) ⍝ Resize window
+     
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
       Add MapScripts ⍝ insert scripts to enable loading Google maps
@@ -47,12 +47,13 @@
      ⍝ Generate SyncFusion TreeGrid with Weather Data
      
       :If 0≠≢WeatherData
-          headers←'Time' 'Temperature (°F)' 'Dew point (°F)' 'Humidity (%)'
+          headers←'Time' 'Temp (°F)' 'Dew (°F)' 'Hum (%)'
           data←(⊂'')@(¯99999∘≡¨)WeatherData    ⍝ Turn missing data points into ''
           levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ Group time (level 1) within day (level 0)
      
           grid←'grid'New _.ejTreeGrid(headers⍪data)levels
           grid.(height width)←650 500
+          grid.CellWidths←150 100 100 100
       :Else
           grid←''
       :EndIf
@@ -71,7 +72,7 @@
               (series,'.name')chart.Set i⊃names
           :EndFor
           'size.(height width)'chart.Set'650' '500'
-          'title.text'chart.Set'NOAA 7-Day Forecast for Zip Code ',⍕zip
+          ⍝'title.text'chart.Set'NOAA 7-Day Forecast for Zip Code ',⍕zip
           'primaryXAxis.labelRotation'chart.Set ¯60
           'primaryYAxis.range.(interval min max)'chart.Set 10 0(100⌈10×⌈0.1×⌈/,WeatherData[;2 3 4])
           'commonSeriesOptions.enableAnimations'chart.Set _true
