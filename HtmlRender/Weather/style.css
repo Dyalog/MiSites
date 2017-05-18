@@ -25,6 +25,18 @@ body {
 .error {
 	color: red;
 }
+#wait {
+	display: none;
+	font-size: x-large;
+	background: rgba(100,100,100,0.5);
+	top: 50%;
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+    width: 100%;
+    color: white;
+    padding: 1ex;
+}
 #status {
 	position: absolute;
 	bottom: 0;

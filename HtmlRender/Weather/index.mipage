@@ -2,15 +2,19 @@
 
     :Field Public ZipCode←10001
 
-    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status;tb
+    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status;tb;handler;wait
       :Access public
       #.Boot.ms._Renderer.(Coord Size)←'Prop'(85 55) ⍝ Resize window
      
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
       Add MapScripts ⍝ insert scripts to enable loading Google maps
+     
       tb←'toolbar'Add _.header
-      (tb.Add _.Input'text'ZipCode'Zip code: ').On'change' 'Redraw'
+      handler←(tb.Add _.Input'text'ZipCode'Zip code: ').On'change' 'Redraw'
+      handler.JavaScript←'#wait'#._JSS.Show''
+      wait←'wait'Add _.div' Fetching data&hellip;'
+      wait.Insert _.Icon'fa-refresh fa-spin'
      
       'dispgrid' 'name="dc"'Add _.Input'radio' ''(New _.Icon'fa-table')'right'
       'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' ''(New _.Icon'fa-line-chart')'right'
@@ -37,6 +41,7 @@
       r,←'#chartdiv'Replace ZipCode MakeChart WeatherData
       r,←'#griddiv'Replace MakeGrid WeatherData
       r,←'#mapdiv'Replace GetMap Msg
+      r,←Execute'#wait'#._JSS.Hide''
     ∇
 
     ∇ r←error MakeInfo Msg
