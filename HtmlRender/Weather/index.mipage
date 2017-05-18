@@ -10,11 +10,11 @@
      
       (Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
      
-     
       'displaycontrol'Add _.span'Display as: '
-      'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' '' 'Graph' 'right'
-      'dispgrid' 'name="dc"'Add _.Input'radio' '' 'Grid' 'right'
-     
+      'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' ''(New _.Icon'fa-line-chart')'right'
+      'dispgrid' 'name="dc"'Add _.Input'radio' ''(New _.Icon'fa-table')'right'
+⍝      Add _.Icon'fa-line-chart'
+⍝      Add _.Icon'fa-table'
       (mapDiv chartDiv gridDiv)←'mapdiv' 'chartdiv' 'griddiv'Add¨_.div
      
       (Msg WeatherData)←GetNoaaData ZipCode

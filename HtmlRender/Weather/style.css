@@ -11,7 +11,7 @@ body {
 	height: 400px;
 	width: 38%;
 	float: left;
-	border-right: 1px solid grey;
+	border-right: 1px solid silver;
 }
 .error {
 	color: red;
@@ -20,8 +20,12 @@ body {
 	position: absolute;
 	bottom: 0;
 	background: WhiteSmoke;
-	border-top: 1px solid black;
+	border-top: 1px solid grey;
 	width: 100%;
+}
+#msgspan {
+	border-right: 1px solid silver;
+	padding: 0 1ex;
 }
 #griddiv, #chartdiv {
 	margin: 1em auto;
