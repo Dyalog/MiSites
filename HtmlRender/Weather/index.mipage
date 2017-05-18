@@ -2,16 +2,14 @@
 
     :Field Public ZipCode←10001
 
-    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv
+    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status
       :Access public
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
-      Add _.h2'NOAA Weather Forecast'
       Add MapScripts ⍝ insert scripts to enable loading Google maps
      
       (Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
      
-      msgSpan←'msgspan'Add _.span
      
       'displaycontrol'Add _.span'Display as: '
       'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' '' 'Graph' 'right'
@@ -20,10 +18,14 @@
       (mapDiv chartDiv gridDiv)←'mapdiv' 'chartdiv' 'griddiv'Add¨_.div
      
       (Msg WeatherData)←GetNoaaData ZipCode
-      msgSpan.Add(0∊⍴WeatherData)MakeInfo Msg
       mapDiv.Add GetMap Msg
       chartDiv.Add ZipCode MakeChart WeatherData
       gridDiv.Add MakeGrid WeatherData
+     
+      status←'status'Add _.footer
+      status.Add msgSpan←'msgspan'New _.span
+      msgSpan.Add(0∊⍴WeatherData)MakeInfo Msg
+     
     ∇
 
     ∇ r←Redraw;data;Msg;WeatherData
@@ -38,7 +40,7 @@
     ∇
 
     ∇ r←error MakeInfo Msg
-      r←(error/'.error')New _.b Msg
+      r←(error/'.error')New _.span Msg
     ∇
 
     ∇ grid←MakeGrid WeatherData;levels;data;headers
@@ -136,7 +138,7 @@
               (temps dew hum)←{⌈ind adjust ⍵}¨temps dew hum
           :EndIf
           times←¯3↓¨#.Dates.TSFmt∘#.Dates.IDNToDate¨times
-          r[1]←⊂' Located at ',∊('Lat: ' ' Long: '),¨2⌷[2](⊂⌽4,data[;2]⍳⊂'point')⊃data ⍝ lat/long
+          r[1]←⊂'Location:',∊'SN' 'WE'{' ','-'~⍨⍵,'&deg;',⍺[2-'-'∊⍵]}¨2⌷[2](⊂⌽4,data[;2]⍳⊂'point')⊃data ⍝ lat/long
           r[2]←⊂times,temps,dew,⍪hum
       :EndIf
     ∇
