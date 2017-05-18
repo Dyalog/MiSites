@@ -2,19 +2,17 @@
 
     :Field Public ZipCode←10001
 
-    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status
+    ∇ Compose;chartDiv;gridDiv;msgSpan;Msg;WeatherData;dc;mapDiv;status;tb
       :Access public
       Add _.StyleSheet'style.css'
       Add _.title'NOAA Weather Forecast'
       Add MapScripts ⍝ insert scripts to enable loading Google maps
-     
-      (Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
+      tb←'toolbar'Add _.header
+      (tb.Add _.Input'text'ZipCode'Zip Code: ').On'change' 'Redraw'
      
       'dispgrid' 'name="dc"'Add _.Input'radio' ''(New _.Icon'fa-table')'right'
       'dispgraph' 'name="dc"' 'checked='Add _.Input'radio' ''(New _.Icon'fa-line-chart')'right'
       'displaycontrol'Add _.span'Display: '
-⍝      Add _.Icon'fa-line-chart'
-⍝      Add _.Icon'fa-table'
       (mapDiv chartDiv gridDiv)←'mapdiv' 'chartdiv' 'griddiv'Add¨_.div
      
       (Msg WeatherData)←GetNoaaData ZipCode
@@ -40,7 +38,7 @@
     ∇
 
     ∇ r←error MakeInfo Msg
-      r←(error/'.error')New _.span Msg
+      r←(error/'.error')New _.span(fmtLoc⍣(~error)⊢Msg)
     ∇
 
     ∇ grid←MakeGrid WeatherData;levels;data;headers
@@ -62,7 +60,7 @@
      ⍝ Generate SyncFusion Chart with Weather Data
      
       :If 0≠≢WeatherData  ⍝ exit if no data
-          names←'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
+          names←'Temperature (°F)' 'Dew point (°F)' 'Humidity (%)'
           chart←'chart'New _.ejChart
           :For i :In ⍳3
               series←'series[',(⍕i),']'
@@ -70,10 +68,10 @@
               (series,'.type')chart.Set'line'
               (series,'.name')chart.Set i⊃names
           :EndFor
-          'size.(height width)'chart.Set'700' '700'
+          'size.(height width)'chart.Set'450' '700'
           'title.text'chart.Set'NOAA 7-Day Forecast for Zip Code ',⍕zip
           'primaryXAxis.labelRotation'chart.Set ¯60
-          'primaryYAxis.range.(interval min max)'chart.Set 5 0(100⌈10×⌈0.1×⌈/,WeatherData[;2 3 4])
+          'primaryYAxis.range.(interval min max)'chart.Set 10 0(100⌈10×⌈0.1×⌈/,WeatherData[;2 3 4])
           'commonSeriesOptions.enableAnimations'chart.Set _true
           'commonSeriesOptions.marker.(shape visible)'chart.Set'circle'_true
           'commonSeriesOptions.marker.size.(height width)'chart.Set 5 5
@@ -85,7 +83,6 @@
 
     ∇ r←GetMap msg;latlong
       ⍝ Embed a Google map for our latitude/longditude
-     
       :If 2=≢latlong←#.Strings.tonum msg
           r←New _.script'loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')'
       :Else
@@ -138,7 +135,7 @@
               (temps dew hum)←{⌈ind adjust ⍵}¨temps dew hum
           :EndIf
           times←¯3↓¨#.Dates.TSFmt∘#.Dates.IDNToDate¨times
-          r[1]←⊂'Location:',∊'SN' 'WE'{' ','-'~⍨⍵,'&deg;',⍺[2-'-'∊⍵]}¨2⌷[2](⊂⌽4,data[;2]⍳⊂'point')⊃data ⍝ lat/long
+          r[1]←⊂2⌷[2](⊂⌽4,data[;2]⍳⊂'point')⊃data ⍝ lat/long
           r[2]←⊂times,temps,dew,⍪hum
       :EndIf
     ∇
@@ -147,5 +144,6 @@
     adjust←{(⍺↑⍵),interpolate ⍺↓⍵}
     parseDate←{¯2↓⊃(//) ⎕VFI ⍵{⍵\⍵/⍺}⍵∊⎕D}
     kids←{(⍺⍺{1↓⍵⌿⍨∧\1,1↓⍵[1;1]⍺⍺ ⍵[;1]})⍺↓⍨¯1+⍺{⍺[;1+⍳≢⍵]⍳⍉⍪⍵}⊆⍵}
+    fmtLoc←{'Location:',∊'SN' 'WE'{' ','-'~⍨⍵,'&deg;',⍺[2-'-'∊⍵]}¨⍵}
 
 :EndClass
