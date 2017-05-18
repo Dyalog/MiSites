@@ -23,13 +23,13 @@
       msgSpan.Add(0∊⍴WeatherData)MakeInfo Msg
       mapDiv.Add GetMap Msg
       chartDiv.Add ZipCode MakeChart WeatherData
-      gridDiv.Add MakeGrid WeatherData     
+      gridDiv.Add MakeGrid WeatherData
     ∇
 
-    ∇ r←Redraw;data;Msg;WeatherData   
+    ∇ r←Redraw;data;Msg;WeatherData
      ⍝ Update page contents for new Zip Code
-      :Access Public                  
-
+      :Access Public
+     
       (Msg WeatherData)←GetNoaaData ZipCode←_value
       r←'#msgspan'Replace(0∊⍴WeatherData)MakeInfo Msg
       r,←'#chartdiv'Replace ZipCode MakeChart WeatherData
@@ -37,19 +37,19 @@
       r,←'#mapdiv'Replace GetMap Msg
     ∇
 
-    ∇ r←error MakeInfo Msg  
+    ∇ r←error MakeInfo Msg
       r←(error/'.error')New _.b Msg
     ∇
 
     ∇ grid←MakeGrid WeatherData;levels;data;headers
      ⍝ Generate SyncFusion TreeGrid with Weather Data
-
-      :If 0≠≢WeatherData                                                  
+     
+      :If 0≠≢WeatherData
           headers←'Time' 'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
           data←(⊂'')@(¯99999∘≡¨)WeatherData    ⍝ Turn missing data points into ''
           levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ Group time (level 1) within day (level 0)
-
-          grid←'grid'New _.ejTreeGrid (headers⍪data) levels
+     
+          grid←'grid'New _.ejTreeGrid(headers⍪data)levels
           grid.width←1000
       :Else
           grid←''
@@ -57,24 +57,27 @@
     ∇
 
     ∇ chart←zip MakeChart WeatherData;names;data;i;series
-      chart←''
-      →0⍴⍨0∊⍴WeatherData  ⍝ exit if no data
-      names←'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
-      chart←'chart'New _.ejChart
-      :For i :In ⍳3
-          series←'series[',(⍕i),']'
-          (series,'.points')chart.Set'xy'#.JSON.fromTable{⍵↑⍨+/∧\⍵[;2]≠¯99999}WeatherData[;1,1+i]
-          (series,'.type')chart.Set'line'
-          (series,'.name')chart.Set i⊃names
-      :EndFor
-      'size.(height width)'chart.Set'700' '1000'
-      'title.text'chart.Set'NOAA 7-Day Forecast for Zip Code ',⍕zip
-      'primaryXAxis.labelRotation'chart.Set ¯45
-      'primaryYAxis.range.(interval min max)'chart.Set 5 0(100⌈10×⌈0.1×⌈/,WeatherData[;2 3 4])
-      'commonSeriesOptions.enableAnimations'chart.Set _true
-      'commonSeriesOptions.marker.(shape visible)'chart.Set'circle'_true
-      'commonSeriesOptions.marker.size.(height width)'chart.Set 5 5
-      'commonSeriesOptions.tooltip.(visible format)'chart.Set _true'#point.x# <br/> #series.name# : #point.y#'
+     ⍝ Generate SyncFusion Chart with Weather Data
+      :If 0≠≢WeatherData  ⍝ exit if no data
+          names←'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
+          chart←'chart'New _.ejChart
+          :For i :In ⍳3
+              series←'series[',(⍕i),']'
+              (series,'.points')chart.Set'xy'#.JSON.fromTable{⍵↑⍨+/∧\⍵[;2]≠¯99999}WeatherData[;1,1+i]
+              (series,'.type')chart.Set'line'
+              (series,'.name')chart.Set i⊃names
+          :EndFor
+          'size.(height width)'chart.Set'700' '1000'
+          'title.text'chart.Set'NOAA 7-Day Forecast for Zip Code ',⍕zip
+          'primaryXAxis.labelRotation'chart.Set ¯45
+          'primaryYAxis.range.(interval min max)'chart.Set 5 0(100⌈10×⌈0.1×⌈/,WeatherData[;2 3 4])
+          'commonSeriesOptions.enableAnimations'chart.Set _true
+          'commonSeriesOptions.marker.(shape visible)'chart.Set'circle'_true
+          'commonSeriesOptions.marker.size.(height width)'chart.Set 5 5
+          'commonSeriesOptions.tooltip.(visible format)'chart.Set _true'#point.x# <br/> #series.name# : #point.y#'
+      :Else
+          chart←''
+      :EndIf
     ∇
 
     ∇ r←GetMap msg;latlong
