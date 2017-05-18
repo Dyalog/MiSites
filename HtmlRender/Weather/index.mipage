@@ -23,12 +23,13 @@
       msgSpan.Add(0∊⍴WeatherData)MakeInfo Msg
       mapDiv.Add GetMap Msg
       chartDiv.Add ZipCode MakeChart WeatherData
-      gridDiv.Add MakeGrid WeatherData
-     
+      gridDiv.Add MakeGrid WeatherData     
     ∇
 
-    ∇ r←Redraw;data;Msg;WeatherData
-      :Access Public
+    ∇ r←Redraw;data;Msg;WeatherData   
+     ⍝ Update page contents for new Zip Code
+      :Access Public                  
+
       (Msg WeatherData)←GetNoaaData ZipCode←_value
       r←'#msgspan'Replace(0∊⍴WeatherData)MakeInfo Msg
       r,←'#chartdiv'Replace ZipCode MakeChart WeatherData
@@ -36,17 +37,23 @@
       r,←'#mapdiv'Replace GetMap Msg
     ∇
 
-    ∇ r←error MakeInfo Msg
+    ∇ r←error MakeInfo Msg  
       r←(error/'.error')New _.b Msg
     ∇
 
-    ∇ grid←MakeGrid WeatherData;items;levels
-      grid←''
-      →0⍴⍨0∊⍴WeatherData
-      items←'Time' 'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'⍪((⊂'')@(¯99999∘≡¨)WeatherData)
-      levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ assign levels based on date
-      grid←'grid'New _.ejTreeGrid items levels
-      grid.width←1000
+    ∇ grid←MakeGrid WeatherData;levels;data;headers
+     ⍝ Generate SyncFusion TreeGrid with Weather Data
+
+      :If 0≠≢WeatherData                                                  
+          headers←'Time' 'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
+          data←(⊂'')@(¯99999∘≡¨)WeatherData    ⍝ Turn missing data points into ''
+          levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ Group time (level 1) within day (level 0)
+
+          grid←'grid'New _.ejTreeGrid (headers⍪data) levels
+          grid.width←1000
+      :Else
+          grid←''
+      :EndIf
     ∇
 
     ∇ chart←zip MakeChart WeatherData;names;data;i;series
@@ -71,13 +78,14 @@
     ∇
 
     ∇ r←GetMap msg;latlong
-      ⍝ embed a Google map for our zipcode
+      ⍝ Embed a Google map for our latitude/longditude
       r←''
       →0⍴⍨2≠≢latlong←#.Strings.tonum msg
       r←New _.script'loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')'
     ∇
 
     ∇ r←MapScripts
+    ⍝ Bring in the Google API and define the LoadMap function used by GetMap
       r←(⊂'src' 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAgm3qwSRLxdc9GTO9xCyzCySu3_d7lRws')New _.script
       r,←New _.script ScriptFollows
     ⍝ var map;
