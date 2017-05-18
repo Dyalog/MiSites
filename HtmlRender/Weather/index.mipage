@@ -58,6 +58,7 @@
 
     ∇ chart←zip MakeChart WeatherData;names;data;i;series
      ⍝ Generate SyncFusion Chart with Weather Data
+     
       :If 0≠≢WeatherData  ⍝ exit if no data
           names←'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
           chart←'chart'New _.ejChart
@@ -82,9 +83,12 @@
 
     ∇ r←GetMap msg;latlong
       ⍝ Embed a Google map for our latitude/longditude
-      r←''
-      →0⍴⍨2≠≢latlong←#.Strings.tonum msg
-      r←New _.script'loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')'
+     
+      :If 2=≢latlong←#.Strings.tonum msg
+          r←New _.script'loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')'
+      :Else
+          r←''
+      :EndIf
     ∇
 
     ∇ r←MapScripts
