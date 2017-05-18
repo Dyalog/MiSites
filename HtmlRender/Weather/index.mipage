@@ -45,7 +45,7 @@
      ⍝ Generate SyncFusion TreeGrid with Weather Data
      
       :If 0≠≢WeatherData
-          headers←'Time' 'Temperature (∘F)' 'Dew point (∘F)' 'Humidity (%)'
+          headers←'Time' 'Temperature (°F)' 'Dew point (°F)' 'Humidity (%)'
           data←(⊂'')@(¯99999∘≡¨)WeatherData    ⍝ Turn missing data points into ''
           levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ Group time (level 1) within day (level 0)
      
