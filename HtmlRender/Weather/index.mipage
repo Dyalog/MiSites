@@ -50,7 +50,7 @@
           levels←0,1+~1,2≢/10↑¨WeatherData[;1] ⍝ Group time (level 1) within day (level 0)
      
           grid←'grid'New _.ejTreeGrid(headers⍪data)levels
-          grid.width←700
+          grid.(height width)←650 500
       :Else
           grid←''
       :EndIf
@@ -68,7 +68,7 @@
               (series,'.type')chart.Set'line'
               (series,'.name')chart.Set i⊃names
           :EndFor
-          'size.(height width)'chart.Set'450' '700'
+          'size.(height width)'chart.Set'650' '500'
           'title.text'chart.Set'NOAA 7-Day Forecast for Zip Code ',⍕zip
           'primaryXAxis.labelRotation'chart.Set ¯60
           'primaryYAxis.range.(interval min max)'chart.Set 10 0(100⌈10×⌈0.1×⌈/,WeatherData[;2 3 4])
@@ -84,7 +84,7 @@
     ∇ r←GetMap msg;latlong
       ⍝ Embed a Google map for our latitude/longditude
       :If 2=≢latlong←#.Strings.tonum msg
-          r←New _.script'loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')'
+          r←New _.script('loadMap(',(1↓∊',',¨#.Strings.fmtNum¨latlong),')')
       :Else
           r←''
       :EndIf
