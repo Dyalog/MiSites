@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Resources>
+<!-- 
+******************************
+*     MathJax resources      *
+******************************
+-->
+	<resource>
+		<name>MathJax-AsciiMath</name>
+		<script>/MathJax/MathJax.js?config=AM_CHTML</script>
+	</resource>
+	<resource>
+		<name>MathJax-TeX/LaTeX</name>
+		<script>/MathJax/MathJax.js?config=TeX-AMS_HTML-full</script>
+	</resource>
+</Resources>

@@ -1,0 +1,15 @@
+﻿:Class tex : TeXPage
+
+    ∇ Compose
+      :Access Public
+      :With (Add _.div).Set'style' 'width:500px;border-style:solid;padding:10px;'
+          Add'This is an inline equation '
+          Add #.TeX'x+\sqrt{1-x^2}'
+          Add _.br
+          Add'Whereas this is a displayed (centered on its own line) equation '
+          (Add #.TeX'x+\sqrt{1-x^2}').displayed←1
+          Add #.TeX'\frac{2}{3}+\sqrt{1-x^2}\hspace{5mm}'
+      :EndWith
+    ∇
+
+:EndClass

@@ -1,0 +1,10 @@
+<Virtual>
+<!-- valid replacements are 
+     %ServerRoot% - MiServer root directory
+     %SiteRoot%   - web site root -->
+
+  <directory>
+    <alias>MathJax</alias>
+    <path>%SiteRoot%/MathJax/</path>
+  </directory>
+</Virtual>
