@@ -1,0 +1,19 @@
+﻿:Class texform : TeXPage
+
+    ∇ Compose
+      :Access Public
+      :With Add _.Form
+          ('#inp'Add _.Input'text' '' 'TeX/LaTeX input:  ').style←'width:400px;'
+          Add _.br
+          (Add _.Button'Go!').On'click' 'myCallback'
+      :EndWith
+      '#output'Add _.div
+    ∇
+
+    ∇ r←myCallback
+      :Access public
+      r←'#output'Replace(New #.TeX(Get'inp')).Render
+      r,←Execute'MathJax.Hub.Reprocess()'
+    ∇
+
+:EndClass
