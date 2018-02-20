@@ -1,4 +1,4 @@
-﻿:Class customer : RESTful
+﻿:Class customer : RESTfulPage
 
     ∇ r←Respond;custid;urlParams
       :Access public

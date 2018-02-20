@@ -1,4 +1,4 @@
-﻿:Class mortgagews : RESTful
+﻿:Class mortgagews : RESTfulPage
     
 ⍝ calculate payment 
     calcpmt←{0::'Error' ⋄ p r n←⍵÷1 1200 (÷12) ⋄ .01×⌈100×p×r÷1-(1+r)*-n}
