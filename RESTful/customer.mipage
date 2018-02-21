@@ -4,7 +4,7 @@
       :Access public
       r←''
      
-      :Select _Command  ⍝ which HTTP command?
+      :Select _Method                    ⍝ which HTTP method?
       :Case 'post' ⋄ r←AddCustomer       ⍝ create new customer
       :Case 'get' ⋄ r←GetCustomer        ⍝ retrieve
       :Case 'put' ⋄ r←UpdateCustomer     ⍝ update
@@ -16,6 +16,7 @@
       :EndSelect
      
       :If 0∊⍴r
+          r←''
           SetStatus 404 ⍝ Not Found
       :EndIf
     ∇
@@ -54,7 +55,7 @@
     ∇
 
     ∇ r←UpdateCustomer;custname
-      r←⍬      
+      r←⍬
       :If ~0∊⍴custname←Get'custname' ⍝ was a name supplied?
       :AndIf 1=⍴_URI         ⍝ make sure id was passed in URL
           r←'custid' 'custname'Annotate(1⊃_URI)#.bl.UpdateCustomer custname

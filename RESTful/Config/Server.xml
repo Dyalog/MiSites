@@ -5,5 +5,5 @@
 
     <RESTful>1</RESTful>
 
-    <AllowedHTTPCommands>get,put,delete,post,options</AllowedHTTPCommands>
+    <AllowedHTTPMethods>get,put,delete,post,options</AllowedHTTPMethods>
 </Server>

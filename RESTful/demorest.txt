@@ -12,22 +12,27 @@ site←#.Boot.AppRoot
 
 (⎕ED ⍠ 'ReadOnly' 1) 'customer' ⍝ Examine ∇Respond
 
-⊃z←('options' HTTPCmd) 'localhost:8080/customer/'  ⍝ expect a 0 return code
-2⊃z ⍝ HTTP headers
-3⊃z ⍝ data (service documentation in this case)  
-⊃(rc hdr data)←('get' HTTPCmd) 'localhost:8080/customer/'  ⍝ expect a 0 return code
+]load HttpCommand
+
+z←HttpCommand.Do 'options' 'localhost:8080/customer/'  
+z.rc   ⍝ expect a 0 return code
+z.Headers ⍝ HTTP headers
+z.Data ⍝ data (service documentation in this case)  
+
+(rc hdr data)←(HttpCommand.Do 'get' 'localhost:8080/customer/').(rc Headers Data)  ⍝ expect a 0 return code
 hdr ⍝ HTTP headers
 data ⍝ all customers
-toJSON←0 1∘(7160⌶) ⋄ fromJSON←(7159⌶) ⋄ fmtJSON←toJSON∘fromJSON ⍝ define some utilities
+
+toJSON←1∘(⎕JSON⍠'Compact' 0) ⋄ fromJSON←0∘⎕JSON ⋄ fmtJSON←toJSON∘fromJSON ⍝ define some utilities
 ⊢cust←fromJSON data
 ↑cust.(custid custname custURI)  ⍝ open a link
-toJSON cust  
-fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200'           ⍝ get customer 1200
-fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/'    ⍝ all orders for customer 1200
-fmtJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/1200/order/9/'  ⍝ Edit me! (insert order number) order details
-('get' HTTPCmd) 'localhost:8080/customer/0'   ⍝ non-existent customer (note 404 HTTP status code)
-('post' HTTPCmd) 'localhost:8080/customer/' ('custname' 'Nick') ⍝ add a new customer
-('put' HTTPCmd) 'localhost:8080/customer/400/' ('custname' 'Dan') ⍝ update a customer
-#.bl.Show
-('delete' HTTPCmd) 'localhost:8080/customer/1200/'  ⍝ delete customer 200
-↑(fromJSON 3⊃('get' HTTPCmd) 'localhost:8080/customer/').(custid custname)  ⍝ verify cust 200 is gone
+toJSON cust
+  
+fmtJSON (HttpCommand.Do 'get' 'localhost:8080/customer/1200').Data           ⍝ get customer 1200
+fmtJSON (HttpCommand.Do 'get' 'localhost:8080/customer/1200/order/').Data    ⍝ all orders for customer 1200
+fmtJSON (HttpCommand.Do 'get' 'localhost:8080/customer/1200/order/9/').Data  ⍝ Edit me! (insert order number) order details
+(HttpCommand.Do 'get' 'localhost:8080/customer/0').(HttpStatus HttpMessage)  ⍝ non-existent customer (note 404 HTTP status code)
+HttpCommand.Do 'post' 'localhost:8080/customer/' ('custname' 'Nick')         ⍝ add a new customer
+HttpCommand.Do 'put' 'localhost:8080/customer/400/' ('custname' 'Dan')       ⍝ update a customer
+HttpCommand.Do 'delete' 'localhost:8080/customer/1200/'                      ⍝ delete customer 200
+↑(fromJSON(HttpCommand.Do'get' 'localhost:8080/customer/').Data).(custid custname)  ⍝ verify last 3 operations
